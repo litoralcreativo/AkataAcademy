@@ -19,13 +19,13 @@ namespace Domain.BoundedContexts.Certification.Entities
             IssueDate issuedOn,
             ExpirationDate expiresOn)
         {
-            if (studentId == null) throw new DomainException("StudentId requerido");
-            if (courseId == null) throw new DomainException("CourseId requerido");
-            if (issuedOn == null) throw new DomainException("IssuedOn requerido");
-            if (expiresOn == null) throw new DomainException("ExpiresOn requerido");
+            if (studentId == null) throw new DomainException("StudentId is required");
+            if (courseId == null) throw new DomainException("CourseId is required");
+            if (issuedOn == null) throw new DomainException("IssuedOn is required");
+            if (expiresOn == null) throw new DomainException("ExpiresOn is required");
 
             if (expiresOn.Value <= issuedOn.Value)
-                throw new DomainException("La fecha de expiración debe ser posterior a la de emisión");
+                throw new DomainException("ExpirationDate must be after IssueDate");
 
             Id = Guid.NewGuid();
             StudentId = studentId;
@@ -40,20 +40,16 @@ namespace Domain.BoundedContexts.Certification.Entities
                 issuedOn.Value));
         }
 
-        /// <summary>
-        /// Factory method de dominio.
-        /// Expresa la intención de emitir un certificado.
-        /// </summary>
         public static Certificate Issue(
             StudentId studentId,
             CourseId courseId,
             IssueDate issuedOn,
             ExpirationDate expiresOn)
         {
-            if (studentId == null) throw new DomainException("StudentId requerido");
-            if (courseId == null) throw new DomainException("CourseId requerido");
-            if (issuedOn == null) throw new DomainException("IssuedOn requerido");
-            if (expiresOn == null) throw new DomainException("ExpiresOn requerido");
+            if (studentId == null) throw new DomainException("StudentId is required");
+            if (courseId == null) throw new DomainException("CourseId is required");
+            if (issuedOn == null) throw new DomainException("IssuedOn is required");
+            if (expiresOn == null) throw new DomainException("ExpiresOn is required");
 
             return new Certificate(
                 studentId,

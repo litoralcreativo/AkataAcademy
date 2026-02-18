@@ -1,8 +1,9 @@
 using Domain.Common;
 
-namespace Domain.BoundedContexts.Catalog.ValueObjects {
-  public class Duration : ValueObject
-  {
+namespace Domain.BoundedContexts.Catalog.ValueObjects
+{
+    public class Duration : ValueObject
+    {
         public int Minutes { get; private set; }
 
         protected Duration() { } // EF
@@ -10,7 +11,7 @@ namespace Domain.BoundedContexts.Catalog.ValueObjects {
         public Duration(int minutes)
         {
             if (minutes <= 0)
-                throw new DomainException("La duración debe ser mayor a 0");
+                throw new DomainException("Duration must be greater than zero.");
 
             Minutes = minutes;
         }
@@ -19,5 +20,5 @@ namespace Domain.BoundedContexts.Catalog.ValueObjects {
         {
             yield return Minutes;
         }
-  }
-} 
+    }
+}

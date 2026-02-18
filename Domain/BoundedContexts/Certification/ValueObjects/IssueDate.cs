@@ -11,7 +11,7 @@ namespace Domain.BoundedContexts.Certification.ValueObjects
     public IssueDate(DateTime value)
     {
       if (value == DateTime.MinValue)
-        throw new DomainException("Fecha de emisión inválida");
+        throw new DomainException("IssueDate cannot be empty.");
 
       Value = value;
     }

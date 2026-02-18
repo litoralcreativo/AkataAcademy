@@ -16,8 +16,8 @@ namespace Domain.BoundedContexts.Catalog.Entities
 
     internal CourseModule(ModuleTitle title, Duration duration)
     {
-      if (title == null) throw new DomainException("Title requerido");
-      if (duration == null) throw new DomainException("Duration requerida");
+      if (title == null) throw new DomainException("Title is required");
+      if (duration == null) throw new DomainException("Duration is required");
 
       Id = Guid.NewGuid();
       Title = title;

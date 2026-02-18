@@ -11,7 +11,7 @@ namespace Domain.BoundedContexts.Certification.ValueObjects
         public ExpirationDate(DateTime value)
         {
             if (value == DateTime.MinValue)
-                throw new DomainException("Fecha de expiración inválida");
+                throw new DomainException("ExpirationDate cannot be empty.");
 
             Value = value;
         }

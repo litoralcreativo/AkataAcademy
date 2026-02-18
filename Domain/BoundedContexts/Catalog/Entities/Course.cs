@@ -21,8 +21,8 @@ namespace Domain.BoundedContexts.Catalog.Entities
 
         private Course(CourseTitle title, CourseDescription description)
         {
-            if (title == null) throw new DomainException("Title requerido");
-            if (description == null) throw new DomainException("Description requerida");
+            if (title == null) throw new DomainException("Title is required");
+            if (description == null) throw new DomainException("Description is required");
 
             Id = Guid.NewGuid();
             Title = title;
@@ -44,10 +44,10 @@ namespace Domain.BoundedContexts.Catalog.Entities
         public void AddModule(ModuleTitle title, Duration duration)
         {
             if (IsPublished)
-                throw new DomainException("No se pueden agregar módulos a un curso publicado");
+                throw new DomainException("No modules can be added to a published course");
 
             if (_modules.Any(m => m.Title.Equals(title)))
-                throw new DomainException("Ya existe un módulo con ese título");
+                throw new DomainException("A module with that title already exists in this course");
 
             var module = new CourseModule(title, duration);
 
@@ -59,10 +59,10 @@ namespace Domain.BoundedContexts.Catalog.Entities
         public void Publish()
         {
             if (IsPublished)
-                throw new DomainException("El curso ya está publicado");
+                throw new DomainException("The course is already published");
 
             if (!_modules.Any())
-                throw new DomainException("No se puede publicar un curso sin módulos");
+                throw new DomainException("A course cannot be published without modules");
 
             IsPublished = true;
 

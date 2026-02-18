@@ -11,7 +11,7 @@ namespace Domain.BoundedContexts.Certification.ValueObjects
         public StudentId(Guid value)
         {
             if (value == Guid.Empty)
-                throw new DomainException("StudentId inválido");
+                throw new DomainException("Invalid StudentId. Guid cannot be empty.");
 
             Value = value;
         }

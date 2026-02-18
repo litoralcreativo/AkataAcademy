@@ -11,7 +11,7 @@ namespace Domain.BoundedContexts.Catalog.ValueObjects
         public CourseDescription(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
-                throw new DomainException("La descripción no puede estar vacía");
+                throw new DomainException("Description cannot be empty.");
 
             Value = value;
         }

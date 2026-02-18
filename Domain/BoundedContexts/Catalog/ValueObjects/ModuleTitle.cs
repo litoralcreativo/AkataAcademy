@@ -11,7 +11,7 @@ namespace Domain.BoundedContexts.Catalog.ValueObjects
         public ModuleTitle(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
-                throw new DomainException("El título del módulo no puede estar vacío");
+                throw new DomainException("Title cannot be empty.");
 
             Value = value;
         }

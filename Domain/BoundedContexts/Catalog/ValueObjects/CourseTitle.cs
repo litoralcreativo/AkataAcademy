@@ -11,10 +11,10 @@ namespace Domain.BoundedContexts.Catalog.ValueObjects
         public CourseTitle(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
-                throw new DomainException("El título no puede estar vacío");
+                throw new DomainException("Title cannot be empty.");
 
             if (value.Length > 100)
-                throw new DomainException("El título es demasiado largo");
+                throw new DomainException("Title is too long. Maximum length is 100 characters.");
 
             Value = value;
         }
