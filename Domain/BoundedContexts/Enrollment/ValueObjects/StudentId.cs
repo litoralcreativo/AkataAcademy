@@ -1,6 +1,6 @@
-using Domain.Common;
+using AkataAcademy.Domain.Common;
 
-namespace Domain.BoundedContexts.Enrollment.ValueObjects
+namespace AkataAcademy.Domain.BoundedContexts.Enrollment.ValueObjects
 {
 	public class StudentId : ValueObject
 	{

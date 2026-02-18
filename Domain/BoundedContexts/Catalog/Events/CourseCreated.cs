@@ -1,6 +1,6 @@
-using Domain.Common;
+using AkataAcademy.Domain.Common;
 
-namespace Domain.BoundedContexts.Catalog.Events
+namespace AkataAcademy.Domain.BoundedContexts.Catalog.Events
 {
     public class CourseCreated : IDomainEvent
     {

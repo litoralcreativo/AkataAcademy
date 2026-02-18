@@ -1,6 +1,6 @@
-using Domain.BoundedContexts.Certification.ValueObjects;
+using AkataAcademy.Domain.BoundedContexts.Certification.ValueObjects;
 
-namespace Domain.BoundedContexts.Certification.Services
+namespace AkataAcademy.Domain.BoundedContexts.Certification.Services
 {
     public interface ICertificateEligibilityService
     {

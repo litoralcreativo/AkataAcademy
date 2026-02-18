@@ -1,6 +1,6 @@
-using Domain.Common;
+using AkataAcademy.Domain.Common;
 
-namespace Domain.BoundedContexts.Enrollment.Events
+namespace AkataAcademy.Domain.BoundedContexts.Enrollment.Events
 {
 	public class StudentEnrolled : IDomainEvent
 	{

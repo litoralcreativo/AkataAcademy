@@ -1,7 +1,7 @@
-using Domain.BoundedContexts.Enrollment.Entities;
-using Domain.Common;
+using AkataAcademy.Domain.BoundedContexts.Enrollment.Entities;
+using AkataAcademy.Domain.Common;
 
-namespace Domain.BoundedContexts.Enrollment.Repositories
+namespace AkataAcademy.Domain.BoundedContexts.Enrollment.Repositories
 {
 	public interface IEnrollmentRepository : IRepository<CourseEnrollment>
 	{

@@ -1,7 +1,7 @@
-using Domain.BoundedContexts.Enrollment.ValueObjects;
-using Domain.Common;
+using AkataAcademy.Domain.BoundedContexts.Enrollment.ValueObjects;
+using AkataAcademy.Domain.Common;
 
-namespace Domain.BoundedContexts.Enrollment.Entities
+namespace AkataAcademy.Domain.BoundedContexts.Enrollment.Entities
 {
 	public class Progress : Entity
 	{

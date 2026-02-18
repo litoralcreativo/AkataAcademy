@@ -1,6 +1,6 @@
-using Domain.Common;
+using AkataAcademy.Domain.Common;
 
-namespace Domain.BoundedContexts.Catalog.ValueObjects
+namespace AkataAcademy.Domain.BoundedContexts.Catalog.ValueObjects
 {
     public class CourseTitle : ValueObject
     {

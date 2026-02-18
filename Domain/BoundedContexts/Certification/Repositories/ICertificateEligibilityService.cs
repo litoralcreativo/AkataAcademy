@@ -1,7 +1,7 @@
-using Domain.Common;
-using Domain.BoundedContexts.Certification.Entities;
+using AkataAcademy.Domain.Common;
+using AkataAcademy.Domain.BoundedContexts.Certification.Entities;
 
-namespace Domain.BoundedContexts.Certification.Repositories
+namespace AkataAcademy.Domain.BoundedContexts.Certification.Repositories
 {
     public interface ICertificateRepository : IRepository<Certificate>
     {

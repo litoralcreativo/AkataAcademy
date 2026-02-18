@@ -1,7 +1,7 @@
-using Domain.Common;
-using Domain.BoundedContexts.Catalog.Entities;
+using AkataAcademy.Domain.Common;
+using AkataAcademy.Domain.BoundedContexts.Catalog.Entities;
 
-namespace Domain.BoundedContexts.Catalog.Repositories
+namespace AkataAcademy.Domain.BoundedContexts.Catalog.Repositories
 {
     public interface ICourseRepository : IRepository<Course>
     {

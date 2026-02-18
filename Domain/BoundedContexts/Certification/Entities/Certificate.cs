@@ -1,8 +1,8 @@
-using Domain.BoundedContexts.Certification.Events;
-using Domain.BoundedContexts.Certification.ValueObjects;
-using Domain.Common;
+using AkataAcademy.Domain.BoundedContexts.Certification.Events;
+using AkataAcademy.Domain.BoundedContexts.Certification.ValueObjects;
+using AkataAcademy.Domain.Common;
 
-namespace Domain.BoundedContexts.Certification.Entities
+namespace AkataAcademy.Domain.BoundedContexts.Certification.Entities
 {
     public class Certificate : AggregateRoot
     {

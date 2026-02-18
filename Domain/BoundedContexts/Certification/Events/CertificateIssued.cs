@@ -1,6 +1,6 @@
-using Domain.Common;
+using AkataAcademy.Domain.Common;
 
-namespace Domain.BoundedContexts.Certification.Events
+namespace AkataAcademy.Domain.BoundedContexts.Certification.Events
 {
     public class CertificateIssued : IDomainEvent
     {

@@ -1,6 +1,6 @@
-using Domain.Common;
+using AkataAcademy.Domain.Common;
 
-namespace Domain.BoundedContexts.Certification.ValueObjects
+namespace AkataAcademy.Domain.BoundedContexts.Certification.ValueObjects
 {
   public class IssueDate : ValueObject
   {

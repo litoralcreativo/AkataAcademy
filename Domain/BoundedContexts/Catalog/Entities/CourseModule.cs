@@ -1,7 +1,7 @@
-using Domain.BoundedContexts.Catalog.ValueObjects;
-using Domain.Common;
+using AkataAcademy.Domain.BoundedContexts.Catalog.ValueObjects;
+using AkataAcademy.Domain.Common;
 
-namespace Domain.BoundedContexts.Catalog.Entities
+namespace AkataAcademy.Domain.BoundedContexts.Catalog.Entities
 {
   public class CourseModule : Entity
   {
