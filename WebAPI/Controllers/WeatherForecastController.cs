@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace AkataAcademy.WebAPI.Controllers
+namespace AkataAcademy.Presentation.Controllers
 {
     [ApiController]
     [Route("[controller]")]

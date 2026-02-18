@@ -1,4 +1,4 @@
-namespace AkataAcademy.WebAPI
+namespace AkataAcademy.Presentation
 {
     public class WeatherForecast
     {
