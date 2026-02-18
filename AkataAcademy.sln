@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkataAcademy.Presentation", "WebAPI\AkataAcademy.Presentation.csproj", "{BEE5FF75-0667-4D4E-93EF-F580DF186098}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkataAcademy.Presentation", "Presentation\AkataAcademy.Presentation.csproj", "{BEE5FF75-0667-4D4E-93EF-F580DF186098}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkataAcademy.Domain", "Domain\AkataAcademy.Domain.csproj", "{A3E3BC60-2564-4DC9-A54B-4E6E3C6206DA}"
 EndProject
