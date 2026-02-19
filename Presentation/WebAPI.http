@@ -1,0 +1,17 @@
+@WebAPI_HostAddress = http://localhost:5297
+
+GET {{WebAPI_HostAddress}}/Catalog/?published=false
+Accept: application/json
+
+###
+
+POST {{WebAPI_HostAddress}}/Catalog/
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Curso de ejemplo",
+  "description": "Descripción del curso de ejemplo"
+}
+
+###
