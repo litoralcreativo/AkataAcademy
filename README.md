@@ -1,134 +1,258 @@
 # AkataAcademy
 
-AkataAcademy es una plataforma educativa desarrollada en .NET 8 siguiendo los principios de DDD (Domain-Driven Design), Clean Architecture y CQRS. El objetivo es ofrecer una base robusta, escalable y mantenible para aplicaciones educativas modernas.
+AkataAcademy is an educational platform developed in .NET 8 following the principles of DDD (Domain-Driven Design), Clean Architecture, and CQRS. The goal is to provide a robust, scalable, and maintainable foundation for modern educational applications.
 
-## Tabla de Contenidos
+## Table of Contents
 
 - [AkataAcademy](#akataacademy)
-  - [Tabla de Contenidos](#tabla-de-contenidos)
-  - [Características](#características)
-  - [Arquitectura](#arquitectura)
-  - [Estructura del Proyecto](#estructura-del-proyecto)
-  - [Tecnologías Utilizadas](#tecnologías-utilizadas)
-  - [Instalación y Ejecución](#instalación-y-ejecución)
+  - [Table of Contents](#table-of-contents)
+  - [Features](#features)
+  - [Architecture](#architecture)
+  - [Project Structure](#project-structure)
+  - [Technologies Used](#technologies-used)
+  - [Installation and Running](#installation-and-running)
   - [Testing](#testing)
-  - [Uso de la API](#uso-de-la-api)
-  - [Convenciones y Buenas Prácticas](#convenciones-y-buenas-prácticas)
-  - [Contribuciones](#contribuciones)
-  - [Licencia](#licencia)
+  - [API Usage](#api-usage)
+  - [CQRS + Domain Events Sequence Diagram (by stages)](#cqrs--domain-events-sequence-diagram-by-stages)
+    - [1. Input and Dispatch](#1-input-and-dispatch)
+    - [2. Persistence and UnitOfWork](#2-persistence-and-unitofwork)
+    - [3. Domain Events and EventBus](#3-domain-events-and-eventbus)
+      - [Additional Notes](#additional-notes)
+  - [Layers and Communication Diagram](#layers-and-communication-diagram)
+  - [Conventions and Best Practices](#conventions-and-best-practices)
+  - [Contributions](#contributions)
+  - [License](#license)
 
 ---
 
-## Características
+## Features
 
-- Arquitectura limpia y desacoplada (DDD + CQRS + Clean Architecture)
-- Separación clara de capas: Dominio, Aplicación, Infraestructura y Presentación
-- Uso de Value Objects y Entities
-- Inyección de dependencias sin MediatR
-- Endpoints minimal API y controladores tradicionales
-- Pruebas HTTP incluidas para endpoints principales
-- Configuración flexible de EF Core (InMemory, SQL Server, PostgreSQL)
+- Clean and decoupled architecture ([DDD](https://martinfowler.com/bliki/DomainDrivenDesign.html) + [CQRS](https://martinfowler.com/bliki/CQRS.html) + [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html))
+- Clear separation of layers: Domain, Application, Infrastructure, and Presentation
+- Use of [Value Objects](https://martinfowler.com/bliki/ValueObject.html) and [Entities](https://martinfowler.com/bliki/EvansClassification.html)
+- Dependency injection without [MediatR](https://github.com/jbogard/MediatR)
+- Minimal API endpoints and traditional controllers
+- HTTP tests included for main endpoints
+- Flexible [EF Core](https://learn.microsoft.com/en-us/ef/core/) configuration (InMemory, SQL Server, PostgreSQL)
 
-## Arquitectura
+## Architecture
 
-El proyecto sigue Clean Architecture, separando responsabilidades en capas:
+The project follows Clean Architecture, with a clear separation of responsibilities into four main layers: Domain, Application, Infrastructure, and Presentation. For a detailed description of each layer and their responsibilities, see the [Project Structure](#project-structure) section below.
 
-- **Domain**: Lógica de negocio, entidades, value objects, interfaces de repositorio
-- **Application**: Casos de uso, comandos, queries, DTOs, interfaces de handlers
-- **Infrastructure**: Implementaciones de persistencia, configuración de EF Core, mensajería
-- **Presentation**: API HTTP (controladores y/o minimal API), configuración de DI, archivos de prueba HTTP
-
-## Estructura del Proyecto
+## Project Structure
 
 ```
 AkataAcademy.sln
-Application/
-  AkataAcademy.Application.csproj
-  Catalog/
-    Commands/
-    DTOs/
-    Queries/
-  Common/
-Domain/
-  AkataAcademy.Domain.csproj
-  BoundedContexts/
-    Catalog/
-    Certification/
-    Enrollment/
-  Common/
-Infrastructure/
-  AkataAcademy.Infrastructure.csproj
-  Messaging/
-  Persistence/
-    Configurations/
-    Repositories/
-Presentation/
-  AkataAcademy.Presentation.csproj
-  Controllers/
-  appsettings.json
-  WebAPI.http
+├── Application/
+│   ├── AkataAcademy.Application.csproj
+│   ├── Catalog/
+│   │   ├── Commands/
+│   │   ├── DTOs/
+│   │   ├── Queries/
+│   └── Common/
+├── Domain/
+│   ├── AkataAcademy.Domain.csproj
+│   ├── BoundedContexts/
+│   │   ├── Catalog/
+│   │   ├── Certification/
+│   │   └── Enrollment/
+│   └── Common/
+├── Infrastructure/
+│   ├── AkataAcademy.Infrastructure.csproj
+│   ├── Messaging/
+│   └── Persistence/
+│       ├── Configurations/
+│       └── Repositories/
+└── Presentation/
+    ├── AkataAcademy.Presentation.csproj
+    ├── Controllers/
+    ├── appsettings.json
+    └── WebAPI.http
 ```
 
-## Tecnologías Utilizadas
+**Layered Overview:**
+
+- **Application:** Use cases, commands, queries, DTOs, and handler registration.
+- **Domain:** Core business logic, entities, value objects, and domain events, organized by bounded context.
+- **Infrastructure:** Persistence (EF Core), messaging, repository implementations, and configurations.
+- **Presentation:** API controllers, minimal API endpoints, configuration files, and HTTP test scripts.
+
+## Technologies Used
 
 - .NET 8
 - Entity Framework Core 8.x
-- InMemory Database Provider (desarrollo/test)
+- InMemory Database Provider (development/test)
 - CQRS (Command Query Responsibility Segregation)
 - DDD (Domain-Driven Design)
 - Minimal API
 - Value Objects
 - Dependency Injection
 
-## Instalación y Ejecución
+## Installation and Running
 
-1. **Clona el repositorio:**
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/litoralcreativo/AkataAcademy.git
    cd AkataAcademy
    ```
-2. **Restaura los paquetes NuGet:**
+2. **Restore NuGet packages:**
    ```bash
    dotnet restore
    ```
-3. **Compila la solución:**
+3. **Build the solution:**
    ```bash
    dotnet build
    ```
-4. **Ejecuta la API:**
+4. **Run the API:**
    ```bash
    dotnet run --project Presentation/AkataAcademy.Presentation.csproj
    ```
-5. **Prueba los endpoints:**
-   Utiliza el archivo `WebAPI.http` para probar los endpoints principales desde VS Code o herramientas como Postman.
+5. **Test the endpoints:**
+   Use the `WebAPI.http` file to test the main endpoints from VS Code or tools like Postman.
 
 ## Testing
 
-- El archivo `WebAPI.http` contiene ejemplos de peticiones GET y POST para probar la API.
-- Puedes agregar pruebas unitarias en el futuro usando xUnit, NUnit o MSTest.
+- The `WebAPI.http` file contains examples of GET and POST requests to test the API.
+- You can add unit tests in the future using xUnit, NUnit, or MSTest.
 
-## Uso de la API
+## API Usage
 
-- **GET /api/catalog?includeUnpublished=true|false**: Obtiene cursos publicados o todos según la bandera.
-- **POST /api/catalog**: Crea un nuevo curso. Ejemplo de payload:
+- **GET /api/catalog?includeUnpublished=true|false**: Gets published courses or all courses depending on the flag.
+- **POST /api/catalog**: Creates a new course. Example payload:
   ```json
   {
-    "title": "Entendiendo arquitectura de software",
-    "description": "POC de Domain-Driven Design, CQRS y Clean Architecture"
+    "title": "Understanding Software Architecture",
+    "description": "POC of Domain-Driven Design, CQRS, and Clean Architecture"
   }
   ```
 
-## Convenciones y Buenas Prácticas
+## CQRS + Domain Events Sequence Diagram (by stages)
 
-- Value Objects se mapean usando `OwnsOne` en EF Core.
-- Los handlers de comandos y queries se registran automáticamente por reflexión.
-- No se utiliza MediatR, los handlers se resuelven vía DI.
-- Se recomienda mantener la separación de capas y evitar dependencias circulares.
+### 1. Input and Dispatch
 
-## Contribuciones
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Presentation
+    participant CommandDispatcher
+    participant CommandHandler
 
-¡Las contribuciones son bienvenidas! Por favor, abre un issue o pull request siguiendo las buenas prácticas del proyecto.
+    Client->>Presentation: HTTP Request (POST/PUT/DELETE)
+    Presentation->>CommandDispatcher: Sends command
+    CommandDispatcher->>CommandHandler: Resolves and executes handler
+```
 
-## Licencia
+### 2. Persistence and UnitOfWork
 
-Este proyecto está bajo la licencia MIT. Consulta el archivo LICENSE.txt para más detalles.
+```mermaid
+sequenceDiagram
+    participant CommandHandler
+    participant Repository
+    participant UnitOfWork
+    participant DB as Database
+
+    CommandHandler->>Repository: Modifies/adds entity
+    Repository->>UnitOfWork: Calls SaveChangesAsync()
+    UnitOfWork->>DB: Persists changes
+    Note right of UnitOfWork: Detects entities with Domain Events
+```
+
+### 3. Domain Events and EventBus
+
+```mermaid
+sequenceDiagram
+    participant UnitOfWork
+    participant DomainEventDispatcher
+    participant DomainEventHandler
+    participant EventBus
+    participant IntegrationEventHandler
+
+    UnitOfWork->>DomainEventDispatcher: Dispatches Domain Events
+    DomainEventDispatcher->>DomainEventHandler: Processes domain event
+    DomainEventHandler-->>EventBus: (Optional) Publishes IntegrationEvent
+    EventBus-->>IntegrationEventHandler: Notifies other BCs/systems
+```
+
+#### Additional Notes
+
+- **EventBus** can be in-memory, RabbitMQ, Azure Service Bus, etc.
+- **IntegrationEventHandler** can be in other bounded contexts or microservices.
+- The flow is fully asynchronous and decoupled.
+- You can have multiple IntegrationEventHandlers for the same event, each in a different context.
+
+## Layers and Communication Diagram
+
+```mermaid
+graph TD
+
+    subgraph Presentation
+        A[API Controllers / Minimal API]
+    end
+
+    subgraph Domain
+        D[Entities / Value Objects]
+        DE[Domain Events]
+    end
+
+    subgraph Application
+        BB[Query Dispatchers]
+        CB[Query Handlers]
+        BA[Command Dispatchers]
+        CA[Command Handlers]
+
+        DEH[Domain Event Handlers]
+        IEH[Integration Event Handlers]
+    end
+
+    subgraph Infrastructure
+        EA[Repositories]
+        UOW[IUnitOfWork]
+        DED[DomainEventDispatcher]
+        EB[EventBus]
+    end
+
+
+    %% Presentation
+    A -->|Invokes commands| BA
+    A -->|Invokes queries| BB
+
+    %% Application - Commands & Queries
+    BA -->|Resolves and executes| CA
+    BB -->|Resolves and executes| CB
+
+    %% Query flow
+    CB -->|queries| EA
+
+    %% Command flow
+    CA -->|orchestrates| D
+    CA -->|confirms changes| UOW
+
+    %% Repository persistence
+    UOW -->|modifies| EA
+
+    %% Domain Events
+    D -->|generates| DE
+    UOW -->|Dispatches events| DED
+    DED -->|Publishes Domain Events| DEH
+
+    %% From Domain Event to Integration Event
+    DEH -->|Publishes Integration Event| EB
+
+    %% EventBus
+    EB -->|Delivers message| IEH
+```
+
+## Conventions and Best Practices
+
+- Value Objects are mapped using `OwnsOne` in EF Core.
+- Command and query handlers are registered automatically by reflection.
+- MediatR is not used; handlers are resolved via DI.
+- It is recommended to maintain layer separation and avoid circular dependencies.
+
+## Contributions
+
+Contributions are welcome! Please open an issue or pull request following the project's best practices.
+
+## License
+
+This project is under the MIT license. See the LICENSE.txt file for more details.
