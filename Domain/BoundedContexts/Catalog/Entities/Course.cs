@@ -49,7 +49,7 @@ namespace AkataAcademy.Domain.BoundedContexts.Catalog.Entities
             if (_modules.Any(m => m.Title.Equals(title)))
                 throw new DomainException("A module with that title already exists in this course");
 
-            var module = new CourseModule(title, duration);
+            var module = new CourseModule(Id, title, duration);
 
             _modules.Add(module);
             // Sincroniza la colección pública

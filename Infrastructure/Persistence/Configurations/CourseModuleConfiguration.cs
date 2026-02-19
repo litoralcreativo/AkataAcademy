@@ -10,6 +10,8 @@ namespace AkataAcademy.Infrastructure.Persistence.Configurations
         {
             builder.HasKey(m => m.Id);
 
+            builder.Property(m => m.CourseId).IsRequired();
+
             builder.OwnsOne(m => m.Title, t =>
             {
                 t.Property(p => p.Value)

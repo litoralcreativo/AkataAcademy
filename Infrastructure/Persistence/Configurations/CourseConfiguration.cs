@@ -26,9 +26,8 @@ namespace AkataAcademy.Infrastructure.Persistence.Configurations
                     .IsRequired();
             });
 
-            builder.HasMany(c => c.Modules)
-                .WithOne()
-                .HasForeignKey("CourseId");
+            builder.HasMany(c => c.Modules).WithOne()
+                .HasForeignKey(x => x.CourseId);
         }
     }
 }
