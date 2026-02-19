@@ -13,12 +13,12 @@ namespace AkataAcademy.Infrastructure
 	{
 		public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
 		{
-			#region DomainEventDispatcher
+			#region Event Dispatchers and Publishers
 
 			services.AddTransient<IDomainEventDispatcher, DomainEventDispatcher>();
+			services.AddSingleton<IEventBus, InMemoryEventBus>();
 
 			#endregion
-
 
 			#region Database Configuration	
 

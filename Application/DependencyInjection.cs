@@ -15,9 +15,11 @@ namespace AkataAcademy.Application
                 .Where(t => !t.IsAbstract && !t.IsInterface)
                 .SelectMany(t => t.GetInterfaces(), (t, i) => new { Type = t, Interface = i })
                 .Where(x => x.Interface.IsGenericType &&
-                            (x.Interface.GetGenericTypeDefinition() == typeof(ICommandHandler<,>) ||
-                             x.Interface.GetGenericTypeDefinition() == typeof(ICommandHandler<>) ||
-                             x.Interface.GetGenericTypeDefinition() == typeof(IQueryHandler<,>)))
+                    (x.Interface.GetGenericTypeDefinition() == typeof(ICommandHandler<,>) ||
+                     x.Interface.GetGenericTypeDefinition() == typeof(ICommandHandler<>) ||
+                     x.Interface.GetGenericTypeDefinition() == typeof(IQueryHandler<,>) ||
+                     x.Interface.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>) ||
+                    x.Interface.GetGenericTypeDefinition() == typeof(IIntegrationEventHandler<>)))
                 .ToList();
 
             foreach (var handler in handlerTypes)

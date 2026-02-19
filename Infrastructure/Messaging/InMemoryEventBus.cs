@@ -1,6 +1,6 @@
 ﻿using AkataAcademy.Application.Common;
 
-namespace LearningPlatform.Infrastructure.Messaging
+namespace AkataAcademy.Infrastructure.Messaging
 {
     public class InMemoryEventBus : IEventBus
     {
@@ -21,6 +21,10 @@ namespace LearningPlatform.Infrastructure.Messaging
 
             if (handlers == null)
                 return;
+
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine($"[InMemoryEventBus] Publishing event: {typeof(TEvent).Name}");
+            Console.ResetColor();
 
             foreach (var handler in handlers)
             {

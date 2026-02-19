@@ -1,7 +1,8 @@
 namespace AkataAcademy.Application.Common
 {
-    public interface IIntegrationEventHandler<TEvent>
+    public interface IIntegrationEventHandler<TEvent> 
+    where TEvent : IIntegrationEvent
     {
-        void Handle(TEvent @event);
+        Task Handle(TEvent @event);
     }
 }

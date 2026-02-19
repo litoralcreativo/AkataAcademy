@@ -23,6 +23,10 @@ namespace AkataAcademy.Infrastructure.Messaging
             if (handlers == null)
                 return;
 
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine($"[DomainEventDispatcher] Dispatching event: {domainEvent.GetType().Name}");
+            Console.ResetColor();
+
             foreach (var handler in handlers)
             {
                 var method = handlerType.GetMethod("Handle");
