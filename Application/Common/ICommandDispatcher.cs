@@ -1,8 +1,11 @@
+using System.Threading.Tasks;
+using AkataAcademy.Domain.Common;
+
 namespace AkataAcademy.Application.Common
 {
     public interface ICommandDispatcher
     {
-        void Dispatch(ICommand command);
-        TResult Dispatch<TResult>(ICommand<TResult> command);
+        Task Dispatch(ICommand command);
+        Task<Result<TResult>> Dispatch<TResult>(ICommand<TResult> command);
     }
 }

@@ -1,5 +1,5 @@
 using AkataAcademy.Application.Common;
-using Microsoft.Extensions.Configuration;
+using AkataAcademy.Application.Dispatchers;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -24,6 +24,10 @@ namespace AkataAcademy.Application
             {
                 services.AddTransient(handler.Interface, handler.Type);
             }
+
+            // Registro de los dispatchers CQRS
+            services.AddScoped<ICommandDispatcher, CommandDispatcher>();
+            services.AddScoped<IQueryDispatcher, QueryDispatcher>();
 
             return services;
         }

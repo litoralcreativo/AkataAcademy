@@ -13,12 +13,17 @@ namespace AkataAcademy.Presentation.Controllers
 	public class CatalogController : ControllerBase
 	{
 		private readonly ILogger<CatalogController> _logger;
+		private readonly IQueryDispatcher _queryDispatcher;
+		private readonly ICommandDispatcher _commandDispatcher;
 
 		public CatalogController(
 			ILogger<CatalogController> logger,
-			IQueryHandler<GetPublishedCoursesQuery, IEnumerable<CourseDto>> handler)
+			IQueryDispatcher queryDispatcher,
+			ICommandDispatcher commandDispatcher)
 		{
 			_logger = logger;
+			_queryDispatcher = queryDispatcher;
+			_commandDispatcher = commandDispatcher;
 		}
 
 		[HttpGet(Name = "GetCatalog")]
@@ -27,16 +32,14 @@ namespace AkataAcademy.Presentation.Controllers
 
 			if (published)
 			{
-				var handler = HttpContext.RequestServices.GetService<IQueryHandler<GetPublishedCoursesQuery, IEnumerable<CourseDto>>>();
 				var query = new GetPublishedCoursesQuery();
-				Result<IEnumerable<CourseDto>> result = await handler.Handle(query);
+				var result = await _queryDispatcher.Dispatch(query);
 				return result.Value;
 			}
 			else
 			{
-				var handler = HttpContext.RequestServices.GetService<IQueryHandler<GetNotPublishedCoursesQuery, IEnumerable<CourseDto>>>();
 				var query = new GetNotPublishedCoursesQuery();
-				Result<IEnumerable<CourseDto>> result = await handler.Handle(query);
+				var result = await _queryDispatcher.Dispatch(query);
 				return result.Value;
 			}
 		}
@@ -44,11 +47,7 @@ namespace AkataAcademy.Presentation.Controllers
 		[HttpPost(Name = "CreateCourse")]
 		public async Task<ActionResult<Guid>> Create([FromBody] CreateCourseCommand command)
 		{
-			var handler = HttpContext.RequestServices.GetService<ICommandHandler<CreateCourseCommand, Guid>>();
-			if (handler == null)
-				return StatusCode(500, "Handler not found");
-
-			var result = await handler.Handle(command);
+			var result = await _commandDispatcher.Dispatch(command);
 			return Ok(result);
 		}
 	}
