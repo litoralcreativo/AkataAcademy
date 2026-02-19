@@ -4,6 +4,6 @@ namespace AkataAcademy.Application.Common
 {
 	public interface IDomainEventDispatcher
 	{
-		void Dispatch(IDomainEvent domainEvent);
+		Task Dispatch(IDomainEvent domainEvent, CancellationToken cancellationToken = default);
 	}
 }

@@ -12,7 +12,7 @@ namespace AkataAcademy.Domain.BoundedContexts.Catalog.Entities
         public CourseDescription Description { get; private set; } = null!;
         public bool IsPublished { get; private set; }
 
-        public virtual ICollection<CourseModule> Modules { get; protected set; } = new List<CourseModule>();
+        public virtual ICollection<CourseModule> Modules => _modules;
 
         protected Course() // EF
         {
@@ -52,6 +52,8 @@ namespace AkataAcademy.Domain.BoundedContexts.Catalog.Entities
             var module = new CourseModule(title, duration);
 
             _modules.Add(module);
+            // Sincroniza la colección pública
+            // (no es necesario si Modules solo expone _modules)
 
             AddDomainEvent(new ModuleAddedToCourse(Id, module.Id));
         }

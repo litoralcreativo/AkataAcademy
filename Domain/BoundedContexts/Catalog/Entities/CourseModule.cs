@@ -5,8 +5,8 @@ namespace AkataAcademy.Domain.BoundedContexts.Catalog.Entities
 {
   public class CourseModule : Entity
   {
-    public ModuleTitle Title { get; private set; }
-    public Duration Duration { get; private set; }
+    public ModuleTitle Title { get; private set; } = null!;
+    public Duration Duration { get; private set; } = null!;
 
     protected CourseModule()
     {
