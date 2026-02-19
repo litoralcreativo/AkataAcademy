@@ -3,26 +3,31 @@ using AkataAcademy.Domain.BoundedContexts.Catalog.Repositories;
 
 namespace AkataAcademy.Application.Catalog.Commands
 {
-	public class PublishCourseCommandHandler : ICommandHandler<PublishCourseCommand>
-	{
-		private readonly ICourseRepository _repository;
-		private readonly IUnitOfWork _unitOfWork;
+    public class PublishCourseCommandHandler : ICommandHandler<PublishCourseCommand>
+    {
+        private readonly ICourseRepository _repository;
+        private readonly IUnitOfWork _unitOfWork;
 
-		public PublishCourseCommandHandler(
-			ICourseRepository repository,
-			IUnitOfWork unitOfWork)
-		{
-			_repository = repository;
-			_unitOfWork = unitOfWork;
-		}
+        public PublishCourseCommandHandler(
+            ICourseRepository repository,
+            IUnitOfWork unitOfWork)
+        {
+            _repository = repository;
+            _unitOfWork = unitOfWork;
+        }
 
-		public void Handle(PublishCourseCommand command)
-		{
-			var course = _repository.GetById(command.CourseId);
+        public async void Handle(PublishCourseCommand command)
+        {
+            var course = await _repository.GetByIdAsync(command.CourseId);
 
-			course.Publish();
+            if (course is null)
+            {
+                return;
+            }
 
-			_unitOfWork.Commit();
-		}
-	}
+            course.Publish();
+
+            await _unitOfWork.SaveChangesAsync();
+        }
+    }
 }

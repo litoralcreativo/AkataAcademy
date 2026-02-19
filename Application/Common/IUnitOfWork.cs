@@ -1,7 +1,7 @@
 namespace AkataAcademy.Application.Common
 {
-	public interface IUnitOfWork
-	{
-		Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-	}
+    public interface IUnitOfWork
+    {
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+    }
 }
