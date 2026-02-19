@@ -7,7 +7,7 @@ namespace AkataAcademy.Application
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             // Registro automático de todos los ICommandHandler y IQueryHandler en este ensamblado
             var assembly = Assembly.GetExecutingAssembly();

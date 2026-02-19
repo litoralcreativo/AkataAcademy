@@ -6,5 +6,6 @@ namespace AkataAcademy.Application.Catalog.Queries
     {
         Task<CourseDto?> GetById(Guid id);
         Task<IEnumerable<CourseDto>> GetPublishedCourses();
+        Task<IEnumerable<CourseDto>> GetNotPublishedCourses();
     }
 }

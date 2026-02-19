@@ -59,5 +59,27 @@ namespace AkataAcademy.Infrastructure.Persistence
                 })
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<CourseDto>> GetNotPublishedCourses()
+        {
+            return await _context.Courses
+                .Where(c => !c.IsPublished)
+                .Select(c => new CourseDto
+                {
+                    Id = c.Id,
+                    Title = c.Title.Value,
+                    Description = c.Description.Value,
+                    IsPublished = c.IsPublished,
+                    Modules = c.Modules
+                        .Select(m => new CourseModuleDto
+                        {
+                            Id = m.Id,
+                            Title = m.Title.Value,
+                            DurationMinutes = m.Duration.Minutes
+                        })
+                        .ToList()
+                })
+                .ToListAsync();
+        }
     }
 }
