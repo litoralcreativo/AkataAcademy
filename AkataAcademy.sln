@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{BEE5FF75-0667-4D4E-93EF-F580DF186098}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkataAcademy.Presentation", "Presentation\AkataAcademy.Presentation.csproj", "{BEE5FF75-0667-4D4E-93EF-F580DF186098}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{A3E3BC60-2564-4DC9-A54B-4E6E3C6206DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkataAcademy.Domain", "Domain\AkataAcademy.Domain.csproj", "{A3E3BC60-2564-4DC9-A54B-4E6E3C6206DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkataAcademy.Application", "Application\AkataAcademy.Application.csproj", "{7BDE75D3-F15D-4B68-AF7D-AA55885B5FAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkataAcademy.Infrastructure", "Infrastructure\AkataAcademy.Infrastructure.csproj", "{3B091505-E020-429D-8FC0-09C51BD29B33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{A3E3BC60-2564-4DC9-A54B-4E6E3C6206DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3E3BC60-2564-4DC9-A54B-4E6E3C6206DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3E3BC60-2564-4DC9-A54B-4E6E3C6206DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BDE75D3-F15D-4B68-AF7D-AA55885B5FAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BDE75D3-F15D-4B68-AF7D-AA55885B5FAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BDE75D3-F15D-4B68-AF7D-AA55885B5FAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BDE75D3-F15D-4B68-AF7D-AA55885B5FAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B091505-E020-429D-8FC0-09C51BD29B33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B091505-E020-429D-8FC0-09C51BD29B33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B091505-E020-429D-8FC0-09C51BD29B33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B091505-E020-429D-8FC0-09C51BD29B33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
