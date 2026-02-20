@@ -20,11 +20,11 @@ namespace AkataAcademy.Domain.Certification.Services
 			IssueDate issueDate,
 			ExpirationDate expirationDate)
 		{
-			// Rule: Only one certificate per student per course
+			// Rule: Only one certificate per student per course. If existsingCertificate is not null, it means a certificate already exists for this student and course.
 			if (existingCertificate is not null)
 				return false;
 
-			// Rule: Expiration date must be after issue date
+			// Rule: Expiration date must be after issue date.
 			if (expirationDate.Value <= issueDate.Value)
 				return false;
 
