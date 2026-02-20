@@ -1,5 +1,6 @@
 using AkataAcademy.Application.Common;
 using AkataAcademy.Application.Dispatchers;
+using AkataAcademy.Domain.Certification.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -9,7 +10,7 @@ namespace AkataAcademy.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            // Registro automático de todos los ICommandHandler y IQueryHandler en este ensamblado
+            // Register all handlers (commands, queries, domain events, integration events)
             var assembly = Assembly.GetExecutingAssembly();
             var handlerTypes = assembly.GetTypes()
                 .Where(t => !t.IsAbstract && !t.IsInterface)
@@ -27,9 +28,12 @@ namespace AkataAcademy.Application
                 services.AddTransient(handler.Interface, handler.Type);
             }
 
-            // Registro de los dispatchers CQRS
+            // Register CQRS dispatchers
             services.AddScoped<ICommandDispatcher, CommandDispatcher>();
             services.AddScoped<IQueryDispatcher, QueryDispatcher>();
+
+            // Register domain services
+            services.AddTransient<CertificateDomainService>();
 
             return services;
         }
