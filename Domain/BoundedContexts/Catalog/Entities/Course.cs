@@ -41,7 +41,7 @@ namespace AkataAcademy.Domain.BoundedContexts.Catalog.Entities
             return new Course(title, description);
         }
 
-        public void AddModule(ModuleTitle title, Duration duration)
+        public void AddModule(ModuleTitle title, ModuleDuration duration)
         {
             if (IsPublished)
                 throw new DomainException("No modules can be added to a published course");

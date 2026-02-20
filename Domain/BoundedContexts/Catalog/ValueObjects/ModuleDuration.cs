@@ -2,13 +2,13 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.Catalog.ValueObjects
 {
-    public class Duration : ValueObject
+    public class ModuleDuration : ValueObject
     {
         public int Minutes { get; private set; }
 
-        protected Duration() { } // EF
+        protected ModuleDuration() { } // EF
 
-        public Duration(int minutes)
+        public ModuleDuration(int minutes)
         {
             if (minutes <= 0)
                 throw new DomainException("Duration must be greater than zero.");

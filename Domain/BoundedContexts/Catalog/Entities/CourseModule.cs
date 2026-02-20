@@ -7,7 +7,7 @@ namespace AkataAcademy.Domain.BoundedContexts.Catalog.Entities
   {
     public Guid CourseId { get; private set; }
     public ModuleTitle Title { get; private set; } = null!;
-    public Duration Duration { get; private set; } = null!;
+    public ModuleDuration Duration { get; private set; } = null!;
 
     protected CourseModule()
     {
@@ -16,7 +16,7 @@ namespace AkataAcademy.Domain.BoundedContexts.Catalog.Entities
       CourseId = default!;
     } // EF
 
-    internal CourseModule(Guid courseId, ModuleTitle title, Duration duration)
+    internal CourseModule(Guid courseId, ModuleTitle title, ModuleDuration duration)
     {
       if (title == null) throw new DomainException("Title is required");
       if (duration == null) throw new DomainException("Duration is required");
