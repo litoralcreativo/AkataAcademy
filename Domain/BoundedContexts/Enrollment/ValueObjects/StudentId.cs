@@ -2,10 +2,11 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.Enrollment.ValueObjects
 {
-	public class StudentId : ValueObject
+	public record StudentId : IValueObject
 	{
-		public Guid Value { get; private set; }
+		public Guid Value { get; init; }
 
+		// Parameterless constructor for EF Core
 		protected StudentId() { }
 
 		public StudentId(Guid value)
@@ -14,11 +15,6 @@ namespace AkataAcademy.Domain.BoundedContexts.Enrollment.ValueObjects
 				throw new DomainException("Invalid StudentId. Guid cannot be empty.");
 
 			Value = value;
-		}
-
-		protected override IEnumerable<object> GetEqualityComponents()
-		{
-			yield return Value;
 		}
 	}
 }

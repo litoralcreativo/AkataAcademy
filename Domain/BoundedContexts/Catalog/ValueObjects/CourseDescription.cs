@@ -2,23 +2,17 @@
 
 namespace AkataAcademy.Domain.BoundedContexts.Catalog.ValueObjects
 {
-    public class CourseDescription : ValueObject
+    public record CourseDescription : IValueObject
     {
-        public string Value { get; private set; } = string.Empty;
+        public string Value { get; init; } = string.Empty;
 
-        protected CourseDescription() { } // EF
+        protected CourseDescription() { }
 
         public CourseDescription(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
-                throw new DomainException("Description cannot be empty.");
-
+                throw new DomainException("Course description cannot be empty.");
             Value = value;
-        }
-
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Value;
         }
     }
 }
