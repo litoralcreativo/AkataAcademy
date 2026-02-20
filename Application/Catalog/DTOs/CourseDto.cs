@@ -1,6 +1,9 @@
+using AkataAcademy.Application.Common;
+using AkataAcademy.Domain.BoundedContexts.Catalog.Entities;
+
 namespace AkataAcademy.Application.Catalog.DTOs
 {
-    public class CourseDto
+    public class CourseDto : DTO<Course, Guid>
     {
         public Guid Id { get; set; }
         public string Title { get; set; } = string.Empty;

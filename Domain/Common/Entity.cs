@@ -1,8 +1,8 @@
 ﻿namespace AkataAcademy.Domain.Common
 {
-    public abstract class Entity
+    public abstract class Entity<TId> : IHasId<TId>
     {
-        public Guid Id { get; protected set; }
+        public TId Id { get; protected set; } = default!;
 
         private List<IDomainEvent>? _domainEvents;
 
@@ -38,7 +38,7 @@
 
         public override bool Equals(object? obj)
         {
-            var other = obj as Entity;
+            var other = obj as Entity<TId>;
             if (other is null)
                 return false;
 
@@ -48,10 +48,11 @@
             if (GetType() != other.GetType())
                 return false;
 
-            if (Id == Guid.Empty || other.Id == Guid.Empty)
+            // Comparación de Id genérica
+            if (EqualityComparer<TId>.Default.Equals(Id, default!) || EqualityComparer<TId>.Default.Equals(other.Id, default!))
                 return false;
 
-            return Id == other.Id;
+            return EqualityComparer<TId>.Default.Equals(Id, other.Id);
         }
 
         public override int GetHashCode()
@@ -59,7 +60,7 @@
             return (GetType().ToString() + Id).GetHashCode();
         }
 
-        public static bool operator ==(Entity a, Entity b)
+        public static bool operator ==(Entity<TId> a, Entity<TId> b)
         {
             if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
                 return true;
@@ -70,11 +71,16 @@
             return a.Equals(b);
         }
 
-        public static bool operator !=(Entity a, Entity b)
+        public static bool operator !=(Entity<TId> a, Entity<TId> b)
         {
             return !(a == b);
         }
 
         #endregion
+    }
+
+    // Versión por defecto usando int como tipo de Id
+    public abstract class Entity : Entity<Guid>
+    {
     }
 }
