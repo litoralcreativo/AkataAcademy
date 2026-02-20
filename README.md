@@ -186,60 +186,89 @@ sequenceDiagram
 graph TD
 
     subgraph Presentation
-        A[API Controllers / Minimal API]
+        direction LR
+        A --> Acd
+        A --> Aqd
+        A@{ shape: rounded, label: "Web API" }
+        Acd@{ shape: rounded, label: "ICommandDipatcher" }
+        Aqd@{ shape: rounded, label: "IQueryDipatcher" }
+
     end
 
+    Acd e1@--> ICD
+    Aqd e2@--> IQD
+    e1@{ animation: fast }
+    e2@{ animation: fast }
+
     subgraph Domain
-        D[Entities / Value Objects]
-        DE[Domain Events]
+        D@{ shape: rounded, label: "Entities" }
+        DE@{ shape: rounded, label: "DomainEvents" }
+
+        D --> DE
     end
 
     subgraph Application
-        BB[Query Dispatchers]
-        CB[Query Handlers]
-        BA[Command Dispatchers]
-        CA[Command Handlers]
 
-        DEH[Domain Event Handlers]
-        IEH[Integration Event Handlers]
+        IQD@{ shape: rounded, label: "QueryDipatcher" }
+        IQH@{ shape: rounded, label: "IQueryHandler" }
+        QH@{ shape: rounded, label: "QueryHandler" }
+
+        ICD@{ shape: rounded, label: "CommandDipatcher" }
+        ICH@{ shape: rounded, label: "ICommandHandler" }
+        CH@{ shape: rounded, label: "CommandHandler" }
+
+        DEH@{ shape: rounded, label: "DomainEventHandler" }
+        IEB@{ shape: rounded, label: "IEventBus" }
+        IEH@{ shape: rounded, label: "IntegrationEventHandler" }
+
+        IRR@{ shape: rounded, label: "IReadRepository" }
+        IR@{ shape: rounded, label: "IRepository" }
+
+        IUOW@{ shape: rounded, label: "IUnitOfWork" }
+
+        IQD ==> IQH
+        ICD ==> ICH
+        ICH --> CH
+        IQH --> QH
+        QH --> IRR
+        CH --> IR
+        CH --> IUOW
+        DEH --> IEB
     end
+    IR --> D
+
+    IRR e3@--> RR
+    e3@{ animation: fast }
+    IR e4@--> R
+    e4@{ animation: fast }
+    IUOW e5@--> UOW
+    e5@{ animation: fast }
+
 
     subgraph Infrastructure
-        EA[Repositories]
-        UOW[IUnitOfWork]
-        DED[DomainEventDispatcher]
-        EB[EventBus]
+        subgraph Repositories
+        end
+            RR@{ shape: rounded, label: "ReadRepository" }
+            R@{ shape: rounded, label: "Repository" }
+        UOW@{ shape: rounded, label: "ApplicationDbContext" }
+        IDED@{ shape: rounded, label: "IDomainEventDispatcher" }
+        DED@{ shape: rounded, label: "DomainEventDispatcher" }
+        IDEH@{ shape: rounded, label: "IDomainEventHandler" }
+        EB@{ shape: rounded, label: "EventBus" }
+        IIEH@{ shape: rounded, label: "IIntegrationEventHandler" }
+
+        UOW --> IDED
+        IDED --> DED
+        DED ==> IDEH
+        EB ==> IIEH
     end
 
-
-    %% Presentation
-    A -->|Invokes commands| BA
-    A -->|Invokes queries| BB
-
-    %% Application - Commands & Queries
-    BA -->|Resolves and executes| CA
-    BB -->|Resolves and executes| CB
-
-    %% Query flow
-    CB -->|queries| EA
-
-    %% Command flow
-    CA -->|orchestrates| D
-    CA -->|confirms changes| UOW
-
-    %% Repository persistence
-    UOW -->|modifies| EA
-
-    %% Domain Events
-    D -->|generates| DE
-    UOW -->|Dispatches events| DED
-    DED -->|Publishes Domain Events| DEH
-
-    %% From Domain Event to Integration Event
-    DEH -->|Publishes Integration Event| EB
-
-    %% EventBus
-    EB -->|Delivers message| IEH
+    IDEH e6@--> DEH
+    e6@{ animation: fast }
+    IEB e7@--> EB
+    e7@{ animation: fast }
+    IIEH e8@--> IEH
+    e8@{ animation: fast }
 ```
 
 ## Conventions and Best Practices
