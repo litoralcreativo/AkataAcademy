@@ -128,7 +128,7 @@ flowchart RL
 
 - **Aggregate Root:** `Student`
   - **Description:** Manages student information, lifecycle, and status. Entry point for personal data and enrollment eligibility.
-  - **Value Objects:** `StudentId`, `FullName`, `Email`, `DateOfBirth`
+  - **Value Objects:** `FullName`, `Email`, `DateOfBirth`
   - **Domain Events:** `StudentRegistered`, `StudentUpdated`, `StudentActivated`, `StudentSuspended`, `StudentDeleted`
   - **Validations:**
     - Email must be unique and valid.
@@ -145,11 +145,10 @@ flowchart RL
     subgraph StudentManagement_BC
         direction LR
         S@{ shape: dbl-circ, label: "<b>Student</b><br>{Aggregate root}", class:"A" }
-        Si@{ shape: hex, label: "<b>StudentId</b>" }
         Fn@{ shape: hex, label: "<b>FullName</b>" }
         Em@{ shape: hex, label: "<b>Email</b>" }
         Dob@{ shape: hex, label: "<b>DateOfBirth</b>" }
-        S:::A ---> Si:::V & Fn:::V & Em:::V & Dob:::V
+        S:::A ---> Fn:::V & Em:::V & Dob:::V
     end
 ```
 

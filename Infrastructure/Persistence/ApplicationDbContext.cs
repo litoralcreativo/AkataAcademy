@@ -12,7 +12,7 @@ namespace AkataAcademy.Infrastructure.Persistence
 
         private readonly IDomainEventDispatcher _dispatcher;
 
-        public ApplicationDbContext(DbContextOptions options, IDomainEventDispatcher dispatcher)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IDomainEventDispatcher dispatcher)
             : base(options)
         {
             _dispatcher = dispatcher;

@@ -46,22 +46,28 @@ namespace AkataAcademy.Domain.BoundedContexts.Certification.Entities
                 issuedOn.Value));
         }
 
-        public static Certificate Issue(
+        public static Result<Certificate> Issue(
             StudentId studentId,
             CourseId courseId,
             IssueDate issuedOn,
             ExpirationDate expiresOn)
         {
-            if (studentId == null) throw new DomainException("StudentId is required");
-            if (courseId == null) throw new DomainException("CourseId is required");
-            if (issuedOn == null) throw new DomainException("IssuedOn is required");
-            if (expiresOn == null) throw new DomainException("ExpiresOn is required");
-
-            return new Certificate(
+            try
+            {
+                return new Certificate(
                 studentId,
                 courseId,
                 issuedOn,
                 expiresOn);
+            }
+            catch (DomainException ex)
+            {
+                return Result.Failure<Certificate>(Error.Validation(ErrorCodes.Certificate.Creation, ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure<Certificate>(Error.Failure("Certificate", ex.Message));
+            }
         }
 
         public bool IsExpired(DateTime currentDate)

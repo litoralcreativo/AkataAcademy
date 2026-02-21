@@ -2,8 +2,15 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.Catalog.ValueObjects
 {
-    public record CourseTitle(string Value) : IValueObject
+    public record CourseTitle : IValueObject
     {
+        public string Value { get; }
+
+        private CourseTitle(string value)
+        {
+            Value = value;
+        }
+
         public static CourseTitle From(string value)
         {
             if (string.IsNullOrWhiteSpace(value))

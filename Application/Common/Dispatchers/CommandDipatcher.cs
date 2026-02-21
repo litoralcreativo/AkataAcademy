@@ -23,9 +23,16 @@ namespace AkataAcademy.Application.Dispatchers
 
 		public async Task<Result<TResult>> Dispatch<TResult>(ICommand<TResult> command)
 		{
-			var handlerType = typeof(ICommandHandler<,>).MakeGenericType(command.GetType(), typeof(TResult));
-			dynamic handler = _serviceProvider.GetRequiredService(handlerType);
-			return await handler.Handle((dynamic)command);
+			try
+			{
+				var handlerType = typeof(ICommandHandler<,>).MakeGenericType(command.GetType(), typeof(TResult));
+				dynamic handler = _serviceProvider.GetRequiredService(handlerType);
+				return await handler.Handle((dynamic)command);
+			}
+			catch (Exception ex)
+			{
+				return Result.Failure<TResult>(Error.Failure("CommandDispatcher", ex.Message));
+			}
 		}
 	}
 }

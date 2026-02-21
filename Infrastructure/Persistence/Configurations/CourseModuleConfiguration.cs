@@ -12,6 +12,11 @@ namespace AkataAcademy.Infrastructure.Persistence.Configurations
 
             builder.Property(m => m.CourseId).IsRequired();
 
+            builder.HasOne<Course>()
+                .WithMany(c => c.Modules)
+                .HasForeignKey(m => m.CourseId)
+                .IsRequired();
+
             builder.OwnsOne(m => m.Title, t =>
             {
                 t.Property(p => p.Value)

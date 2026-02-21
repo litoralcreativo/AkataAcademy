@@ -13,6 +13,7 @@ AkataAcademy is an educational platform developed in .NET 8 following the princi
   - [Technologies Used](#technologies-used)
   - [Installation and Running](#installation-and-running)
   - [Testing](#testing)
+    - [Switch to InMemory database for testing](#switch-to-inmemory-database-for-testing)
   - [API Usage](#api-usage)
   - [CQRS Workflow and Domain/Integration Events Sequence Diagrams](#cqrs-workflow-and-domainintegration-events-sequence-diagrams)
     - [1a. Command handling: Persistence](#1a-command-handling-persistence)
@@ -126,17 +127,80 @@ flowchart LR
    ```bash
    dotnet build
    ```
-4. **Run the API:**
+4. **Set up the database connection string (development):**
+   - The connection string can be defined in `appsettings.json` under `ConnectionStrings:DefaultConnection`, but **we strongly recommend NOT storing sensitive credentials in this file** if your repository is public or shared.
+   - Instead, use `dotnet user-secrets` to store the connection string securely for local development.
+   - Navigate to the Presentation project folder:
+     ```bash
+     cd Presentation
+     ```
+   - If you want to use the InMemory database for testing, see the section [Switch to InMemory database for testing](#switch-to-inmemory-database-for-testing) further down in this README.
+   - Initialize user-secrets:
+     ```bash
+     dotnet user-secrets init
+     ```
+   - Set the connection string (PostgreSQL example):
+     ```bash
+     dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Host=localhost;Port=5432;Database=AkataAcademyDb;Username=your_username;Password=your_password"
+     ```
+   - **Tip:** To list all user-secrets:
+     ```bash
+     dotnet user-secrets list
+     ```
+   - **Tip:** To remove a user-secret:
+     ```bash
+     dotnet user-secrets remove "ConnectionStrings:DefaultConnection"
+     ```
+   - The connection string will be stored securely and not exposed in the repository.
+     4.1. **Create and apply migrations (EF Core):**
+   - To generate the initial migration (after setting the connection string):
+     ```bash
+     dotnet ef migrations add InitialCreate --project Infrastructure --startup-project Presentation
+     ```
+   - To apply the migration and create the tables in the database:
+     ```bash
+     dotnet ef database update --project Infrastructure --startup-project Presentation
+     ```
+   - **Tip:** If you change your model, create a new migration:
+     ```bash
+     dotnet ef migrations add <MigrationName> --project Infrastructure --startup-project Presentation
+     dotnet ef database update --project Infrastructure --startup-project Presentation
+     ```
+   - **Troubleshooting:**
+     - If you dropped the database or want to reset migrations:
+       1. Delete the `Migrations` folder in `Infrastructure/Persistence`.
+       2. Drop the `__EFMigrationsHistory` table from the database (using pgAdmin or SQL).
+       3. Create a new migration and update the database as above.
+   - For more info, see [EF Core migrations documentation](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/).
+5. **Run the API:**
    ```bash
    dotnet run --project Presentation/AkataAcademy.Presentation.csproj
    ```
-5. **Test the endpoints:**
+6. **Test the endpoints:**
    Use the `WebAPI.http` file to test the main endpoints from VS Code or tools like Postman.
 
 ## Testing
 
 - The `WebAPI.http` file contains examples of GET and POST requests to test the API.
 - You can add unit tests in the future using xUnit, NUnit, or MSTest.
+
+  ### Switch to InMemory database for testing
+  - In `Infrastructure/DependencyInjection.cs`, comment out the Npgsql configuration line and uncomment the InMemory line:
+
+    ```csharp
+    // Comment this block
+    services.AddDbContext<ApplicationDbContext>(
+                options => options
+                    .UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+
+    // Uncomment this block
+    // services.AddDbContext<ApplicationDbContext>(
+    //     options => options
+    //         .UseInMemoryDatabase("AkataAcademyDb"));
+    ```
+
+  - This allows you to run the application without PostgreSQL, ideal for quick tests or local development.
+  - Remember to switch back to the Npgsql configuration for production or PostgreSQL integration.
 
 ## API Usage
 
