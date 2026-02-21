@@ -11,37 +11,37 @@ using AkataAcademy.Application.Certification.Queries;
 
 namespace AkataAcademy.Infrastructure
 {
-	public static class DependencyInjection
-	{
-		public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
-		{
-			#region Event Dispatchers and Publishers
+    public static class DependencyInjection
+    {
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+        {
+            #region Event Dispatchers and Publishers
 
-			services.AddTransient<IDomainEventDispatcher, DomainEventDispatcher>();
-			services.AddSingleton<IEventBus, InMemoryEventBus>();
+            services.AddTransient<IDomainEventDispatcher, DomainEventDispatcher>();
+            services.AddSingleton<IEventBus, InMemoryEventBus>();
 
-			#endregion
+            #endregion
 
-			#region Database Configuration	
+            #region Database Configuration    
 
-			services.AddDbContext<ApplicationDbContext>(
-				options => options.UseInMemoryDatabase("AkataAcademyDb"));
+            services.AddDbContext<ApplicationDbContext>(
+                options => options
+                    .UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
-			services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
+            services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
-			#endregion
+            #endregion
 
-			#region Repositories
+            #region Repositories
 
-			services.AddScoped<ICourseReadRepository, CourseReadRepository>();
-			services.AddScoped<ICourseRepository, CourseRepository>();
-			services.AddScoped<ICertificateRepository, CertificateRepository>();
-			services.AddScoped<ICertificateReadRepository, CertificateReadRepository>();
+            services.AddScoped<ICourseReadRepository, CourseReadRepository>();
+            services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<ICertificateRepository, CertificateRepository>();
+            services.AddScoped<ICertificateReadRepository, CertificateReadRepository>();
 
-			#endregion
+            #endregion
 
-			return services;
-
-		}
-	}
+            return services;
+        }
+    }
 }

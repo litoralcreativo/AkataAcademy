@@ -1,3 +1,4 @@
+using System.Reflection;
 using AkataAcademy.Domain.BoundedContexts.Catalog.Events;
 using AkataAcademy.Domain.BoundedContexts.Catalog.ValueObjects;
 using AkataAcademy.Domain.Common;
@@ -6,17 +7,13 @@ namespace AkataAcademy.Domain.BoundedContexts.Catalog.Entities
 {
     public class Course : AggregateRoot
     {
-        private readonly List<CourseModule> _modules;
-
         public CourseTitle Title { get; private set; } = null!;
         public CourseDescription Description { get; private set; } = null!;
         public bool IsPublished { get; private set; }
 
-        public virtual ICollection<CourseModule> Modules => _modules;
-
+        public virtual ICollection<CourseModule> Modules { get; private set; } = new List<CourseModule>();
         protected Course() // EF
         {
-            _modules = new List<CourseModule>();
         }
 
         private Course(CourseTitle title, CourseDescription description)
@@ -28,8 +25,6 @@ namespace AkataAcademy.Domain.BoundedContexts.Catalog.Entities
             Title = title;
             Description = description;
             IsPublished = false;
-
-            _modules = new List<CourseModule>();
 
             AddDomainEvent(new CourseCreated(Id));
         }
@@ -52,29 +47,30 @@ namespace AkataAcademy.Domain.BoundedContexts.Catalog.Entities
             }
         }
 
-        public Result AddModule(ModuleTitle title, ModuleDuration duration)
+        public Result<CourseModule> AddModule(ModuleTitle title, ModuleDuration duration)
         {
             if (IsPublished)
-                return Result.Failure<Course>(Error.Validation(ErrorCodes.Course.ModuleManagment, "No modules can be added to a published course"));
+                return Result.Failure<CourseModule>(Error.Validation(ErrorCodes.Course.ModuleManagment, "No modules can be added to a published course"));
 
-            if (_modules.Any(m => m.Title.Equals(title)))
-                return Result.Failure<Course>(Error.Validation(ErrorCodes.Course.ModuleManagment, "A module with that title already exists in this course"));
+            if (Modules.Any(m => m.Title.Equals(title)))
+                return Result.Failure<CourseModule>(Error.Validation(ErrorCodes.Course.ModuleManagment, "A module with that title already exists in this course"));
 
             try
             {
                 var module = new CourseModule(Id, title, duration);
-                _modules.Add(module);
+                Modules.Add(module);
+
 
                 AddDomainEvent(new ModuleAddedToCourse(Id, module.Id));
-                return Result.Success();
+                return Result.Success(module);
             }
             catch (DomainException ex)
             {
-                return Result.Failure<Course>(Error.Validation(ErrorCodes.Course.ModuleManagment, ex.Message));
+                return Result.Failure<CourseModule>(Error.Validation(ErrorCodes.Course.ModuleManagment, ex.Message));
             }
             catch (Exception)
             {
-                return Result.Failure<Course>(Error.Failure(ErrorCodes.General.Conflict, "An unexpected error occurred while adding the module."));
+                return Result.Failure<CourseModule>(Error.Failure(ErrorCodes.General.Conflict, "An unexpected error occurred while adding the module."));
             }
 
         }
@@ -84,7 +80,7 @@ namespace AkataAcademy.Domain.BoundedContexts.Catalog.Entities
             if (IsPublished)
                 return Result.Failure(Error.Validation(ErrorCodes.Course.Publishing, "The course is already published"));
 
-            if (!_modules.Any())
+            if (!Modules.Any())
                 return Result.Failure(Error.Validation(ErrorCodes.Course.Publishing, "A course cannot be published without modules"));
 
             IsPublished = true;

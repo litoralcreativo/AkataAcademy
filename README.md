@@ -126,11 +126,55 @@ flowchart LR
    ```bash
    dotnet build
    ```
-4. **Run the API:**
+4. **Set up the database connection string (development):**
+   - The connection string can be defined in `appsettings.json` under `ConnectionStrings:DefaultConnection`, but **we strongly recommend NOT storing sensitive credentials in this file** if your repository is public or shared.
+   - Instead, use `dotnet user-secrets` to store the connection string securely for local development.
+   - Navigate to the Presentation project folder:
+     ```bash
+     cd Presentation
+     ```
+   - Initialize user-secrets:
+     ```bash
+     dotnet user-secrets init
+     ```
+   - Set the connection string (PostgreSQL example):
+     ```bash
+     dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Host=localhost;Port=5432;Database=AkataAcademyDb;Username=your_username;Password=your_password"
+     ```
+   - **Tip:** To list all user-secrets:
+     ```bash
+     dotnet user-secrets list
+     ```
+   - **Tip:** To remove a user-secret:
+     ```bash
+     dotnet user-secrets remove "ConnectionStrings:DefaultConnection"
+     ```
+   - The connection string will be stored securely and not exposed in the repository.
+     4.1. **Create and apply migrations (EF Core):**
+   - To generate the initial migration (after setting the connection string):
+     ```bash
+     dotnet ef migrations add InitialCreate --project Infrastructure --startup-project Presentation
+     ```
+   - To apply the migration and create the tables in the database:
+     ```bash
+     dotnet ef database update --project Infrastructure --startup-project Presentation
+     ```
+   - **Tip:** If you change your model, create a new migration:
+     ```bash
+     dotnet ef migrations add <MigrationName> --project Infrastructure --startup-project Presentation
+     dotnet ef database update --project Infrastructure --startup-project Presentation
+     ```
+   - **Troubleshooting:**
+     - If you dropped the database or want to reset migrations:
+       1. Delete the `Migrations` folder in `Infrastructure/Persistence`.
+       2. Drop the `__EFMigrationsHistory` table from the database (using pgAdmin or SQL).
+       3. Create a new migration and update the database as above.
+   - For more info, see [EF Core migrations documentation](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/).
+5. **Run the API:**
    ```bash
    dotnet run --project Presentation/AkataAcademy.Presentation.csproj
    ```
-5. **Test the endpoints:**
+6. **Test the endpoints:**
    Use the `WebAPI.http` file to test the main endpoints from VS Code or tools like Postman.
 
 ## Testing
