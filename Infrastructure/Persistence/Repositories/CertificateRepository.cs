@@ -37,7 +37,7 @@ namespace AkataAcademy.Infrastructure.Persistence
         public async Task<Certificate?> GetByStudentAndCourseAsync(StudentId studentId, CourseId courseId)
         {
             return await _context.Certificates
-                .Where(c => c.StudentId == studentId && c.CourseId == courseId)
+                .Where(c => c.StudentId.Value == studentId.Value && c.CourseId.Value == courseId.Value)
                 .SingleOrDefaultAsync();
         }
     }

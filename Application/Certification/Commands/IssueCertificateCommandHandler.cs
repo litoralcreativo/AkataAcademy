@@ -1,3 +1,4 @@
+using AkataAcademy.Application.Catalog.Queries;
 using AkataAcademy.Application.Common;
 using AkataAcademy.Domain.BoundedContexts.Certification.Entities;
 using AkataAcademy.Domain.BoundedContexts.Certification.Repositories;
@@ -12,15 +13,18 @@ namespace AkataAcademy.Application.Certification.Commands
 		private readonly ICertificateRepository _certificateRepository;
 		private readonly CertificateDomainService _domainService;
 		private readonly IUnitOfWork _unitOfWork;
+		private readonly ICourseReadRepository _courseReadRepository;
 
 		public IssueCertificateCommandHandler(
 			ICertificateRepository certificateRepository,
 			CertificateDomainService domainService,
-			IUnitOfWork unitOfWork)
+			IUnitOfWork unitOfWork,
+			ICourseReadRepository courseReadRepository)
 		{
 			_certificateRepository = certificateRepository;
 			_domainService = domainService;
 			_unitOfWork = unitOfWork;
+			_courseReadRepository = courseReadRepository;
 		}
 
 		public async Task<Result<Guid>> Handle(IssueCertificateCommand command)
@@ -30,15 +34,20 @@ namespace AkataAcademy.Application.Certification.Commands
 			IssueDate issueDate = new IssueDate(command.IssueDate);
 			ExpirationDate expirationDate = new ExpirationDate(command.ExpirationDate);
 
+			// Check if course exists
+			var course = await _courseReadRepository.GetById(courseId.Value);
+			if (course is null)
+				return Result.Failure<Guid>(Error.NotFound(ErrorCodes.Course.NotFound, $"Course with id {courseId.Value} not found."));
+
 			var existingCertificate = await _certificateRepository.GetByStudentAndCourseAsync(studentId, courseId);
 
-			bool canIssue = _domainService.CanIssueCertificate(
+			Result canIssue = _domainService.CanIssueCertificate(
 				existingCertificate,
 				issueDate,
 				expirationDate);
 
-			if (!canIssue)
-				throw new DomainException("Certificate cannot be issued due to business rules.");
+			if (!canIssue.IsSuccess)
+				return Result.Failure<Guid>(canIssue.Error);
 
 			var certificate = Certificate.Issue(
 				studentId,

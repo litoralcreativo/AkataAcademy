@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AkataAcademy.Domain.Common
+﻿namespace AkataAcademy.Domain.Common
 {
     public record Error
     {
@@ -38,5 +32,8 @@ namespace AkataAcademy.Domain.Common
 
         public static Error Conflict(string code, string description) =>
             new(code, description, ErrorType.Conflict);
+
+        public static Error Validation(string code, string description) =>
+            new(code, description, ErrorType.Validation);
     }
 }

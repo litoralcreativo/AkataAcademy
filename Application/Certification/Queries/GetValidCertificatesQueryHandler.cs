@@ -18,7 +18,7 @@ namespace AkataAcademy.Application.Certification.Queries
 			var certificates = await _certificateRepository.GetValidCertificates();
 
 			if (certificates is null || !certificates.Any())
-				return Result.Failure<IEnumerable<CertificateDto>>(Error.NotFound("Certification.NotFound", "No valid certificates found."));
+				return Result.Success(Enumerable.Empty<CertificateDto>());
 
 			return Result.Success(certificates);
 		}

@@ -37,7 +37,7 @@ namespace AkataAcademy.Infrastructure.Persistence
         public async Task<IEnumerable<CertificateDto>> GetValidCertificates()
         {
             return await _context.Certificates
-                .Where(c => !c.IsExpired(DateTime.UtcNow))
+                .Where(c => c.ExpiresOn.Value > DateTime.UtcNow)
                 .Select(c => new CertificateDto
                 {
                     Id = c.Id,
@@ -45,7 +45,7 @@ namespace AkataAcademy.Infrastructure.Persistence
                     CourseId = c.CourseId.Value,
                     IssueDate = c.IssuedOn.Value,
                     ExpirationDate = c.ExpiresOn.Value,
-                    IsExpired = c.IsExpired(DateTime.UtcNow)
+                    IsExpired = c.ExpiresOn.Value <= DateTime.UtcNow
                 })
                 .ToListAsync();
         }

@@ -18,7 +18,7 @@ namespace AkataAcademy.Application.Catalog.Queries
         {
             var course = await _readRepository.GetById(query.CourseId);
             if (course is null)
-                return Result.Failure<CourseDto>(Error.NotFound("Course.NotFound", "Course not found."));
+                return Result.Failure<CourseDto>(Error.NotFound(ErrorCodes.Course.NotFound, "Course not found."));
 
             return Result.Success(course);
         }

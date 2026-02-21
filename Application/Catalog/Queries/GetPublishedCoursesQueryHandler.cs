@@ -18,8 +18,8 @@ namespace AkataAcademy.Application.Catalog.Queries
         {
             IEnumerable<CourseDto> courses = await _readRepository.GetPublishedCourses();
 
-            if (courses is null || !courses.Any())
-                return Result.Failure<IEnumerable<CourseDto>>(Error.NotFound("Course.NotFound", "No published courses found."));
+            if (courses is null)
+                return Result.Success(Enumerable.Empty<CourseDto>());
 
             return Result.Success(courses);
         }

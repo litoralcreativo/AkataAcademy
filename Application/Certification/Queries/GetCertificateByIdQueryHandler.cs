@@ -19,7 +19,7 @@ namespace AkataAcademy.Application.Certification.Queries
 			var certificate = await _certificateRepository.GetById(query.CertificateId);
 
 			if (certificate is null)
-				return Result.Failure<CertificateDto>(Error.NotFound("Certification.NotFound", $@"Certificate with id {query.CertificateId} not found."));
+				return Result.Failure<CertificateDto>(Error.NotFound(ErrorCodes.Certificate.NotFound, $@"Certificate with id {query.CertificateId} not found."));
 
 			return Result.Success(certificate);
 		}

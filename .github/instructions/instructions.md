@@ -8,6 +8,13 @@ This project is designed to follow the principles of **Domain-Driven Design (DDD
 
 ---
 
+## Language and Documentation Policy
+
+- All generated code, comments, documentation, and commit messages must be written in English. No exceptions.
+- Any code, documentation, or comments submitted in another language will be rejected during review.
+
+---
+
 ## 1. Project Structure
 
 The solution must be organized into clearly separated layers:
@@ -50,7 +57,7 @@ The solution must be organized into clearly separated layers:
 ## 2. DDD Principles
 
 - **Entities**: Must have identity and relevant business logic.
-- **Value Objects**: Immutable, no identity, only attributes and comparison logic.
+- **Value Objects**: Immutable, no identity, only attributes and comparison logic. Use C# records and provide protected parameterless constructors for EF Core compatibility.
 - **Aggregates**: Control consistency of their internal entities and value objects.
 - **Domain Events**: Use to communicate important changes within the domain.
 - **Repositories**: Only expose necessary methods for the aggregate root.
@@ -71,17 +78,19 @@ The solution must be organized into clearly separated layers:
 - **Queries**: Read-only. Do not modify state, return DTOs or query models.
 - **Handlers**: Each command or query has its own handler.
 - **Validation**: Use validators (e.g., FluentValidation) for commands and queries.
+- **Handlers for collections**: Always return Success with an empty list if no elements are found. Never return an error for empty collections.
 
 ---
 
 ## 5. Best Practices
 
 - **Clear names**: Use descriptive names for classes, methods, and files.
-- **Documentation**: Comment code where necessary and keep this file updated.
+- **Documentation**: Comment code where necessary and keep this file updated. All documentation must be in English.
 - **Testing**: All new code must include unit tests and, if applicable, integration tests.
 - **Domain events**: Register relevant events and handle them asynchronously if possible.
 - **Avoid logic in controllers**: All logic should be in the application or domain layer.
 - **Do not access infrastructure directly from the domain**.
+- **REST API conventions**: Controllers must translate Result objects to appropriate ActionResult responses. For collection queries, always return 200 OK with an empty list if no elements are found. Only return 404 for single resource queries when the resource does not exist.
 
 ---
 
@@ -102,6 +111,7 @@ The solution must be organized into clearly separated layers:
 - Follow C# and .NET conventions for naming and organization.
 - Use `null!` in protected constructors for properties required by EF Core.
 - Keep classes as small and focused as possible.
+- All code, comments, and documentation must be in English.
 
 ---
 
@@ -110,6 +120,7 @@ The solution must be organized into clearly separated layers:
 - All changes must go through code review.
 - Include a clear description of changes and reference related issues.
 - Do not mix logic changes with refactoring or formatting changes.
+- All review comments and discussions must be in English.
 
 ---
 
@@ -121,4 +132,4 @@ The solution must be organized into clearly separated layers:
 
 ---
 
-\*\*Thank you for contributing and maintaining the quality
+**Thank you for contributing and maintaining the quality of this project!**

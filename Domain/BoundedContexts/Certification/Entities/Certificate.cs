@@ -11,7 +11,13 @@ namespace AkataAcademy.Domain.BoundedContexts.Certification.Entities
         public IssueDate IssuedOn { get; private set; } = null!;
         public ExpirationDate ExpiresOn { get; private set; } = null!;
 
-        protected Certificate() { } // EF
+        protected Certificate()
+        {
+            StudentId = default!;
+            CourseId = default!;
+            IssuedOn = default!;
+            ExpiresOn = default!;
+        } // EF
 
         private Certificate(
             StudentId studentId,
