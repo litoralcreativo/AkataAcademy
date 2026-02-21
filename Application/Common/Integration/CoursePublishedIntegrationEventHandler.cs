@@ -1,8 +1,6 @@
-using AkataAcademy.Application.Common;
-
 namespace AkataAcademy.Application.Common.Integration
 {
-    public class CoursePublishedEnrollmentHandler : IIntegrationEventHandler<CoursePublishedIntegrationEvent>
+    public class CoursePublishedIntegrationEventHandler : IIntegrationEventHandler<CoursePublishedIntegrationEvent>
     {
         public async Task Handle(CoursePublishedIntegrationEvent @event)
         {

@@ -1,4 +1,5 @@
 ﻿using AkataAcademy.Application.Common;
+using System.Threading.Tasks;
 
 namespace AkataAcademy.Infrastructure.Messaging
 {
@@ -11,7 +12,7 @@ namespace AkataAcademy.Infrastructure.Messaging
             _serviceProvider = serviceProvider;
         }
 
-        public void Publish<TEvent>(TEvent @event) where TEvent : class
+        public async Task Publish<TEvent>(TEvent @event) where TEvent : class
         {
             var handlerType = typeof(IIntegrationEventHandler<>)
                 .MakeGenericType(typeof(TEvent));
@@ -26,14 +27,19 @@ namespace AkataAcademy.Infrastructure.Messaging
             Console.WriteLine($"[InMemoryEventBus] Publishing event: {typeof(TEvent).Name}");
             Console.ResetColor();
 
+            var tasks = new List<Task>();
             foreach (var handler in handlers)
             {
                 var method = handlerType.GetMethod("Handle");
                 if (method == null)
                     continue;
 
-                method.Invoke(handler, new object[] { @event });
+                var taskObj = method.Invoke(handler, new object[] { @event });
+
+                if (taskObj is Task task)
+                    tasks.Add(task);
             }
+            await Task.WhenAll(tasks);
         }
     }
 }

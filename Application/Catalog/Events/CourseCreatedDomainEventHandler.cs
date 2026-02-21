@@ -1,16 +1,14 @@
 using AkataAcademy.Application.Common;
 using AkataAcademy.Domain.BoundedContexts.Catalog.Events;
-using AkataAcademy.Application.Integration;
-using System;
-using System.Threading.Tasks;
+using AkataAcademy.Application.Common.Integration;
 
 namespace AkataAcademy.Application.Catalog.Events
 {
-	public class CourseCreatedHandler : IDomainEventHandler<CourseCreated>
+	public class CourseCreatedDomainEventHandler : IDomainEventHandler<CourseCreated>
 	{
 		private readonly IEventBus _eventBus;
 
-		public CourseCreatedHandler(IEventBus eventBus)
+		public CourseCreatedDomainEventHandler(IEventBus eventBus)
 		{
 			_eventBus = eventBus;
 		}
@@ -20,9 +18,7 @@ namespace AkataAcademy.Application.Catalog.Events
 			Console.WriteLine($"\t[DE-Catalog] Published Course");
 
 			var integrationEvent = new CoursePublishedIntegrationEvent(domainEvent.CourseId, DateTime.UtcNow);
-			_eventBus.Publish(integrationEvent);
-
-			await Task.CompletedTask;
+			await _eventBus.Publish(integrationEvent);
 		}
 	}
 }
