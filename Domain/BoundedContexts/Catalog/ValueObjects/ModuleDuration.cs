@@ -2,23 +2,17 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.Catalog.ValueObjects
 {
-    public class ModuleDuration : ValueObject
+    public record ModuleDuration : IValueObject
     {
-        public int Minutes { get; private set; }
+        public int Minutes { get; init; }
 
-        protected ModuleDuration() { } // EF
+        protected ModuleDuration() { }
 
         public ModuleDuration(int minutes)
         {
             if (minutes <= 0)
-                throw new DomainException("Duration must be greater than zero.");
-
+                throw new DomainException("Module duration must be positive.");
             Minutes = minutes;
-        }
-
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Minutes;
         }
     }
 }

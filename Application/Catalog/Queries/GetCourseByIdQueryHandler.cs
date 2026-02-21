@@ -16,7 +16,11 @@ namespace AkataAcademy.Application.Catalog.Queries
 
         public async Task<Result<CourseDto>> Handle(GetCourseByIdQuery query)
         {
-            return await _readRepository.GetById(query.CourseId);
+            var course = await _readRepository.GetById(query.CourseId);
+            if (course is null)
+                return Result.Failure<CourseDto>(Error.NotFound(ErrorCodes.Course.NotFound, "Course not found."));
+
+            return Result.Success(course);
         }
     }
 }

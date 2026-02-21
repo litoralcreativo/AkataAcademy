@@ -2,9 +2,9 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.Certification.ValueObjects
 {
-    public class StudentId : ValueObject
+    public record StudentId : IValueObject
     {
-        public Guid Value { get; private set; }
+        public Guid Value { get; init; }
 
         protected StudentId() { }
 
@@ -14,11 +14,6 @@ namespace AkataAcademy.Domain.BoundedContexts.Certification.ValueObjects
                 throw new DomainException("Invalid StudentId. Guid cannot be empty.");
 
             Value = value;
-        }
-
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Value;
         }
     }
 }

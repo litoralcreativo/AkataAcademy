@@ -2,10 +2,11 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.Enrollment.ValueObjects
 {
-    public class CompletionPercentage : ValueObject
+    public record CompletionPercentage : IValueObject
     {
-        public int Value { get; private set; }
+        public int Value { get; init; }
 
+        // Parameterless constructor for EF Core
         protected CompletionPercentage() { }
 
         public CompletionPercentage(int value)
@@ -14,11 +15,6 @@ namespace AkataAcademy.Domain.BoundedContexts.Enrollment.ValueObjects
                 throw new DomainException("Invalid completion percentage. Must be between 0 and 100.");
 
             Value = value;
-        }
-
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Value;
         }
     }
 }

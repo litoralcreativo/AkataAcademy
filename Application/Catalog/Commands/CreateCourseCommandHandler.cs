@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using AkataAcademy.Application.Common;
 using AkataAcademy.Domain.BoundedContexts.Catalog.Entities;
 using AkataAcademy.Domain.BoundedContexts.Catalog.Repositories;
@@ -9,14 +8,14 @@ namespace AkataAcademy.Application.Catalog.Commands
 {
     public class CreateCourseCommandHandler : ICommandHandler<CreateCourseCommand, Guid>
     {
-        private readonly ICourseRepository _repository;
+        private readonly ICourseRepository __courseRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         public CreateCourseCommandHandler(
             ICourseRepository repository,
             IUnitOfWork unitOfWork)
         {
-            _repository = repository;
+            __courseRepository = repository;
             _unitOfWork = unitOfWork;
         }
 
@@ -26,7 +25,7 @@ namespace AkataAcademy.Application.Catalog.Commands
                 new CourseTitle(command.Title),
                 new CourseDescription(command.Description));
 
-            _repository.Add(course);
+            await __courseRepository.AddAsync(course);
 
             await _unitOfWork.SaveChangesAsync();
 
