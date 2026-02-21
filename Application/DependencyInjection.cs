@@ -1,6 +1,6 @@
 using AkataAcademy.Application.Common;
 using AkataAcademy.Application.Dispatchers;
-using AkataAcademy.Domain.Certification.Services;
+using AkataAcademy.Domain.BoundedContexts.Certification.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 

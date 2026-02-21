@@ -17,6 +17,10 @@ namespace AkataAcademy.Application.Catalog.Queries
         public async Task<Result<IEnumerable<CourseDto>>> Handle(GetPublishedCoursesQuery query)
         {
             IEnumerable<CourseDto> courses = await _readRepository.GetPublishedCourses();
+
+            if (courses is null || !courses.Any())
+                return Result.Failure<IEnumerable<CourseDto>>(Error.NotFound("Course.NotFound", "No published courses found."));
+
             return Result.Success(courses);
         }
     }

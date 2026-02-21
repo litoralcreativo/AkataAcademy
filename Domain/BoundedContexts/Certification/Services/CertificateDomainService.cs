@@ -1,7 +1,7 @@
 using AkataAcademy.Domain.BoundedContexts.Certification.Entities;
 using AkataAcademy.Domain.BoundedContexts.Certification.ValueObjects;
 
-namespace AkataAcademy.Domain.Certification.Services
+namespace AkataAcademy.Domain.BoundedContexts.Certification.Services
 {
 	/// <summary>
 	/// Domain service for business rules related to certificate issuance.

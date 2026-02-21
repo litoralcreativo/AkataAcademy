@@ -13,6 +13,11 @@ namespace AkataAcademy.Infrastructure.Persistence
             _context = context;
         }
 
+        public Task<bool> Exists(Guid id)
+        {
+            return _context.Courses.AnyAsync(c => c.Id == id);
+        }
+
         public async Task<Course?> GetByIdAsync(Guid id)
         {
             return await _context.Courses
@@ -20,19 +25,14 @@ namespace AkataAcademy.Infrastructure.Persistence
                 .SingleOrDefaultAsync(c => c.Id == id);
         }
 
-        public void Add(Course course)
+        public Task AddAsync(Course course)
         {
-            _context.Courses.Add(course);
+            return Task.FromResult(_context.Courses.Add(course) != null);
         }
 
-        public void Remove(Course course)
+        public Task RemoveAsync(Course course)
         {
-            _context.Courses.Remove(course);
-        }
-
-        public bool Exists(Guid id)
-        {
-            return _context.Courses.Any(c => c.Id == id);
+            return Task.FromResult(_context.Courses.Remove(course) != null);
         }
     }
 }
