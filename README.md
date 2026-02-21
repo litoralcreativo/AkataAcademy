@@ -9,14 +9,15 @@ AkataAcademy is an educational platform developed in .NET 8 following the princi
   - [Features](#features)
   - [Architecture](#architecture)
   - [Project Structure](#project-structure)
+  - [Projects References](#projects-references)
   - [Technologies Used](#technologies-used)
   - [Installation and Running](#installation-and-running)
   - [Testing](#testing)
   - [API Usage](#api-usage)
-  - [CQRS + Domain Events Sequence Diagram (by stages)](#cqrs--domain-events-sequence-diagram-by-stages)
-    - [1. Input and Dispatch](#1-input-and-dispatch)
-    - [2. Persistence and UnitOfWork](#2-persistence-and-unitofwork)
-    - [3. Domain Events and EventBus](#3-domain-events-and-eventbus)
+  - [CQRS Workflow and Domain/Integration Events Sequence Diagrams](#cqrs-workflow-and-domainintegration-events-sequence-diagrams)
+    - [1a. Command handling: Persistence](#1a-command-handling-persistence)
+    - [1b. Command handling: Domain/Integration Events](#1b-command-handling-domainintegration-events)
+    - [2. Query handeling](#2-query-handeling)
       - [Additional Notes](#additional-notes)
   - [Layers and Communication Diagram](#layers-and-communication-diagram)
   - [Conventions and Best Practices](#conventions-and-best-practices)
@@ -43,31 +44,53 @@ The project follows Clean Architecture, with a clear separation of responsibilit
 
 ```
 AkataAcademy.sln
-├── Application/
-│   ├── AkataAcademy.Application.csproj
-│   ├── Catalog/
-│   │   ├── Commands/
-│   │   ├── DTOs/
-│   │   ├── Queries/
-│   └── Common/
-├── Domain/
-│   ├── AkataAcademy.Domain.csproj
-│   ├── BoundedContexts/
-│   │   ├── Catalog/
-│   │   ├── Certification/
-│   │   └── Enrollment/
-│   └── Common/
-├── Infrastructure/
-│   ├── AkataAcademy.Infrastructure.csproj
-│   ├── Messaging/
-│   └── Persistence/
-│       ├── Configurations/
-│       └── Repositories/
-└── Presentation/
-    ├── AkataAcademy.Presentation.csproj
-    ├── Controllers/
-    ├── appsettings.json
-    └── WebAPI.http
+├── 📦 Application/
+│   ├── 📄 AkataAcademy.Application.csproj
+│   ├── 📁 Catalog/
+│   │   ├── 📁 Commands/
+│   │   ├── 📁 DTOs/
+│   │   ├── 📁 Events/
+│   │   └── 📁 Queries/
+│   ├── 📁 Certification/
+│   │   └── /.../
+│   ├── 📁 StudentManagement/
+│   │   └── /.../
+│   ├── 📁 Enrollment/
+│   │   └── /.../
+│   └── 📁 Common/
+│       ├── 📁 Dispatchers/
+│       └── 📁 Integration/
+├── 📦 Domain/
+│   ├── 📄 AkataAcademy.Domain.csproj
+│   ├── 📁 BoundedContexts/
+│   │   ├── 📁 Catalog/
+│   │   ├── 📁 Certification/
+│   │   ├── 📁 Enrollment/
+│   │   └── 📁 StudentManagement/
+│   └── 📁 Common/
+├── 📦 Infrastructure/
+│   ├── 📄 AkataAcademy.Infrastructure.csproj
+│   ├── 📁 Messaging/
+│   └── 📁 Persistence/
+│       ├── 📁 Configurations/
+│       └── 📁 Repositories/
+└── 📦 Presentation/
+    ├── 📄 AkataAcademy.Presentation.csproj
+    ├── 📁 Controllers/
+    ├── 📝 appsettings.json
+    └── 📝 WebAPI.http
+```
+
+## Projects References
+
+```mermaid
+flowchart LR
+    Application --> Domain
+    Application --> Infrastructure
+    Infrastructure --> Domain
+    Presentation --> Application
+    Presentation --> Infrastructure
+
 ```
 
 **Layered Overview:**
@@ -126,51 +149,95 @@ AkataAcademy.sln
   }
   ```
 
-## CQRS + Domain Events Sequence Diagram (by stages)
+## CQRS Workflow and Domain/Integration Events Sequence Diagrams
 
-### 1. Input and Dispatch
+### 1a. Command handling: Persistence
 
 ```mermaid
 sequenceDiagram
+    autonumber
+
     participant Client
     participant Presentation
     participant CommandDispatcher
     participant CommandHandler
-
-    Client->>Presentation: HTTP Request (POST/PUT/DELETE)
-    Presentation->>CommandDispatcher: Sends command
-    CommandDispatcher->>CommandHandler: Resolves and executes handler
-```
-
-### 2. Persistence and UnitOfWork
-
-```mermaid
-sequenceDiagram
-    participant CommandHandler
     participant Repository
     participant UnitOfWork
+    participant DED as DomainEventDispatcher
     participant DB as Database
 
-    CommandHandler->>Repository: Modifies/adds entity
-    Repository->>UnitOfWork: Calls SaveChangesAsync()
-    UnitOfWork->>DB: Persists changes
-    Note right of UnitOfWork: Detects entities with Domain Events
+    Client->>+Presentation: HTTP Request (POST/PUT/DELETE)
+    Presentation->>+CommandDispatcher: Sends command
+    CommandDispatcher->>+CommandHandler: Resolves and executes handler
+    CommandHandler->>+Repository: Modifies/adds entity
+    CommandHandler->>+UnitOfWork: Calls SaveChangesAsync()
+    UnitOfWork->>+DB: Persists changes
+    DB->>-UnitOfWork: Persists changes
+    opt
+        Note over UnitOfWork,DED: This interaction occurs only if there<br>are domain events in the entities
+    end
+    UnitOfWork-->>-CommandHandler: Save completed
+    CommandHandler-->>-CommandDispatcher: Handler result
+    CommandDispatcher-->>-Presentation: Command result
+    Presentation-->>-Client: HTTP Response
 ```
 
-### 3. Domain Events and EventBus
+### 1b. Command handling: Domain/Integration Events
 
 ```mermaid
 sequenceDiagram
+    autonumber
+
     participant UnitOfWork
     participant DomainEventDispatcher
     participant DomainEventHandler
     participant EventBus
     participant IntegrationEventHandler
 
-    UnitOfWork->>DomainEventDispatcher: Dispatches Domain Events
-    DomainEventDispatcher->>DomainEventHandler: Processes domain event
-    DomainEventHandler-->>EventBus: (Optional) Publishes IntegrationEvent
-    EventBus-->>IntegrationEventHandler: Notifies other BCs/systems
+    Note over UnitOfWork: Detects entities with Domain Events
+    loop Per domain event
+        UnitOfWork->>+DomainEventDispatcher: Dispatches domain events
+        loop Per domain event handeler
+            DomainEventDispatcher->>+DomainEventHandler: Handle domain event
+            opt
+                DomainEventHandler-->>+EventBus: Publishes IntegrationEvent
+                loop Per integration event handler
+                    EventBus-->>+IntegrationEventHandler: Notifies other BCs/systems
+                        Note over IntegrationEventHandler: Apply integration logic, for example,<br>calling aggregates from diferent bounded context
+
+                    IntegrationEventHandler-->>-EventBus: Events processed
+                end
+                EventBus-->>-DomainEventHandler: Integration events published
+            end
+            DomainEventHandler-->>-DomainEventDispatcher: Domain events handled
+        end
+        DomainEventDispatcher-->>-UnitOfWork: Domain events dipatched
+    end
+```
+
+### 2. Query handeling
+
+```mermaid
+sequenceDiagram
+    autonumber
+
+    participant Client
+    participant Presentation
+    participant QueryDispatcher
+    participant QueryHandler
+    participant ReadRepository
+    participant DB as Database
+
+    Client->>+Presentation: HTTP Request (GET)
+    Presentation->>+QueryDispatcher: Sends query
+    QueryDispatcher->>+QueryHandler: Resolves and executes handler
+    QueryHandler->>+ReadRepository: Fetches data
+    ReadRepository->>+DB: Reads data
+    DB-->>-ReadRepository: Returns data
+    ReadRepository-->>-QueryHandler: Data result
+    QueryHandler-->>-QueryDispatcher: Handler result
+    QueryDispatcher-->>-Presentation: Query result
+    Presentation-->>-Client: HTTP Response
 ```
 
 #### Additional Notes
