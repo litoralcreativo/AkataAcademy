@@ -124,6 +124,35 @@ flowchart RL
     end
 ```
 
+### Student Management BC
+
+- **Aggregate Root:** `Student`
+  - **Description:** Manages student information, lifecycle, and status. Entry point for personal data and enrollment eligibility.
+  - **Value Objects:** `StudentId`, `FullName`, `Email`, `DateOfBirth`
+  - **Domain Events:** `StudentRegistered`, `StudentUpdated`, `StudentActivated`, `StudentSuspended`, `StudentDeleted`
+  - **Validations:**
+    - Email must be unique and valid.
+    - Student must be in "Active" status to enroll in courses.
+    - Cannot delete a student with active enrollments.
+
+```mermaid
+flowchart RL
+    style StudentManagement_BC fill:#222, color:#FFF, stroke:#FFF
+    classDef A fill:#282, stroke:#FFF, color:#FFF
+    classDef V fill:#444, stroke:#FFF5, color:#FFF
+    linkStyle default stroke:#FFF
+
+    subgraph StudentManagement_BC
+        direction LR
+        S@{ shape: dbl-circ, label: "<b>Student</b><br>{Aggregate root}", class:"A" }
+        Si@{ shape: hex, label: "<b>StudentId</b>" }
+        Fn@{ shape: hex, label: "<b>FullName</b>" }
+        Em@{ shape: hex, label: "<b>Email</b>" }
+        Dob@{ shape: hex, label: "<b>DateOfBirth</b>" }
+        S:::A ---> Si:::V & Fn:::V & Em:::V & Dob:::V
+    end
+```
+
 ---
 
-Each bounded context is independent and encapsulates its own rules, invariants, and business logic. Aggregate roots enforce consistency and invariants within their boundaries. Domain events are used to signal important state changes, and value objects ensure immutability and validation of key
+Each bounded context is independent and encapsulates its own rules, invariants, and business logic. Aggregate roots enforce consistency and invariants within their boundaries. Domain events are used to signal important state changes, and value objects ensure immutability and validation of key attributes. This approach promotes a clean, maintainable, and scalable domain model.
