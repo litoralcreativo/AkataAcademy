@@ -4,6 +4,7 @@ using AkataAcademy.Application.Catalog.DTOs;
 using AkataAcademy.Application.Catalog.Queries;
 using AkataAcademy.Application.Common;
 using AkataAcademy.Domain.Common;
+using AkataAcademy.Presentation.Controllers.Catalog.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AkataAcademy.Presentation.Controllers
@@ -45,12 +46,23 @@ namespace AkataAcademy.Presentation.Controllers
 		}
 
 		[HttpPost(Name = "CreateCourse")]
-		public async Task<ActionResult<Guid>> Create([FromBody] CreateCourseCommand command)
+		public async Task<ActionResult<Guid>> Create([FromBody] CreateCourseRequest request)
 		{
+			var command = new CreateCourseCommand(request.Title, request.Description);
 			var result = await _commandDispatcher.Dispatch(command);
 			if (!result.IsSuccess)
 				return BadRequest(result.Error);
 			return CreatedAtAction(nameof(Get), new { published = true }, result.Value);
+		}
+
+		[HttpPost("{courseId}/modules")]
+		public async Task<IActionResult> AddModuleToCourse(Guid courseId, [FromBody] AddModuleToCourseRequest request)
+		{
+			var command = new AddModuleToCourseCommand(courseId, request.ModuleTitle, request.ModuleDuration);
+			var result = await _commandDispatcher.Dispatch(command);
+			if (result.IsFailure)
+				return BadRequest(result.Error);
+			return CreatedAtAction(nameof(Get), new { published = false }, result.Value);
 		}
 	}
 }

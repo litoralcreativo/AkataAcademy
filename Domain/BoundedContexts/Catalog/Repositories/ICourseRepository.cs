@@ -5,5 +5,6 @@ namespace AkataAcademy.Domain.BoundedContexts.Catalog.Repositories
 {
     public interface ICourseRepository : IRepository<Course>
     {
+        Task AddCourseModule(CourseModule course);
     }
 }

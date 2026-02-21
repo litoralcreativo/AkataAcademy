@@ -10,11 +10,7 @@ namespace AkataAcademy.Domain.BoundedContexts.Catalog.Entities
     public ModuleDuration Duration { get; private set; } = null!;
 
     protected CourseModule()
-    {
-      Title = default!;
-      Duration = default!;
-      CourseId = default!;
-    } // EF
+    { } // EF
 
     internal CourseModule(Guid courseId, ModuleTitle title, ModuleDuration duration)
     {

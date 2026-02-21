@@ -29,10 +29,10 @@ namespace AkataAcademy.Application.Certification.Commands
 
 		public async Task<Result<Guid>> Handle(IssueCertificateCommand command)
 		{
-			StudentId studentId = new StudentId(command.StudentId);
-			CourseId courseId = new CourseId(command.CourseId);
-			IssueDate issueDate = new IssueDate(command.IssueDate);
-			ExpirationDate expirationDate = new ExpirationDate(command.ExpirationDate);
+			StudentId studentId = StudentId.From(command.StudentId);
+			CourseId courseId = CourseId.From(command.CourseId);
+			IssueDate issueDate = IssueDate.From(command.IssueDate);
+			ExpirationDate expirationDate = ExpirationDate.From(command.ExpirationDate);
 
 			// Check if course exists
 			var course = await _courseReadRepository.GetById(courseId.Value);
@@ -55,11 +55,14 @@ namespace AkataAcademy.Application.Certification.Commands
 				issueDate,
 				expirationDate);
 
-			await _certificateRepository.AddAsync(certificate);
+			if (!certificate.IsSuccess)
+				return Result.Failure<Guid>(certificate.Error);
+
+			await _certificateRepository.AddAsync(certificate.Value);
 
 			await _unitOfWork.SaveChangesAsync();
 
-			return certificate.Id;
+			return certificate.Value.Id;
 		}
 	}
 }

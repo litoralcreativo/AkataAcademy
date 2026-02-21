@@ -11,7 +11,7 @@ namespace AkataAcademy.Domain.BoundedContexts.StudentManagement.Entities
 		public FullName Name { get; private set; } = default!;
 		public Email Email { get; private set; } = default!;
 		public DateOfBirth DateOfBirth { get; private set; } = default!;
-		public StudentStatus Status { get; private set; } = default!;
+		public StudentStatus Status { get; private set; } = StudentStatus.Active;
 
 		protected Student() { }
 
@@ -33,30 +33,34 @@ namespace AkataAcademy.Domain.BoundedContexts.StudentManagement.Entities
 			AddDomainEvent(new StudentUpdated(Id));
 		}
 
-		public void Activate()
+		public Result Activate()
 		{
-			Status = StudentStatus.Active;
+			var result = Status.Activate();
+			if (!result.IsSuccess) return result;
+
+			Status = result.Value;
 			AddDomainEvent(new StudentActivated(Id));
+			return Result.Success();
 		}
 
-		public void Suspend()
+		public Result Suspend()
 		{
-			Status = StudentStatus.Suspended;
+			var result = Status.Suspend();
+			if (!result.IsSuccess) return result;
+
+			Status = result.Value;
 			AddDomainEvent(new StudentSuspended(Id));
+			return Result.Success();
 		}
 
-		public void Delete()
+		public Result Delete()
 		{
-			Status = StudentStatus.Deleted;
-			AddDomainEvent(new StudentDeleted(Id));
-		}
-	}
+			var result = Status.Delete();
+			if (!result.IsSuccess) return result;
 
-	public enum StudentStatus
-	{
-		Active,
-		Inactive,
-		Suspended,
-		Deleted
+			Status = result.Value;
+			AddDomainEvent(new StudentDeleted(Id));
+			return Result.Success();
+		}
 	}
 }

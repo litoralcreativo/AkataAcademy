@@ -1,5 +1,6 @@
 ﻿using AkataAcademy.Domain.BoundedContexts.Catalog.Entities;
 using AkataAcademy.Domain.BoundedContexts.Catalog.Repositories;
+using AkataAcademy.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace AkataAcademy.Infrastructure.Persistence
@@ -33,6 +34,12 @@ namespace AkataAcademy.Infrastructure.Persistence
         public Task RemoveAsync(Course course)
         {
             return Task.FromResult(_context.Courses.Remove(course) != null);
+        }
+
+        public Task AddCourseModule(CourseModule module)
+        {
+            _context.CourseModules.Add(module);
+            return Task.CompletedTask;
         }
     }
 }

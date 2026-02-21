@@ -1,5 +1,6 @@
 using AkataAcademy.Application.Common;
 using AkataAcademy.Domain.BoundedContexts.Catalog.Repositories;
+using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Application.Catalog.Commands
 {
@@ -16,18 +17,21 @@ namespace AkataAcademy.Application.Catalog.Commands
             _unitOfWork = unitOfWork;
         }
 
-        public async void Handle(PublishCourseCommand command)
+        public async Task<Result> Handle(PublishCourseCommand command)
         {
             var course = await _repository.GetByIdAsync(command.CourseId);
 
             if (course is null)
             {
-                return;
+                return Result.Failure(Error.NotFound(ErrorCodes.Course.NotFound, $"Course with id {command.CourseId} not found."));
             }
 
-            course.Publish();
+            var result = course.Publish();
+
+            if (result.IsFailure) return result;
 
             await _unitOfWork.SaveChangesAsync();
+            return Result.Success();
         }
     }
 }
