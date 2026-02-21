@@ -3,7 +3,5 @@ using AkataAcademy.Application.Common;
 
 namespace AkataAcademy.Application.Certification.Queries
 {
-	public class GetValidCertificatesQuery : IQuery<IEnumerable<CertificateDto>>
-	{
-	}
+	public record GetValidCertificatesQuery : IQuery<IEnumerable<CertificateDto>>;
 }

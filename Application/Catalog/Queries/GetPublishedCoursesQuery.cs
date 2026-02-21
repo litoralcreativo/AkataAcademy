@@ -3,7 +3,5 @@ using AkataAcademy.Application.Common;
 
 namespace AkataAcademy.Application.Catalog.Queries
 {
-    public class GetPublishedCoursesQuery : IQuery<IEnumerable<CourseDto>>
-    {
-    }
+    public record GetPublishedCoursesQuery : IQuery<IEnumerable<CourseDto>>;
 }
