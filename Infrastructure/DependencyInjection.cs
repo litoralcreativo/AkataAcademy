@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using AkataAcademy.Domain.BoundedContexts.Catalog.Repositories;
+using AkataAcademy.Domain.BoundedContexts.Certification.Repositories;
+using AkataAcademy.Application.Certification.Queries;
 
 namespace AkataAcademy.Infrastructure
 {
@@ -33,6 +35,8 @@ namespace AkataAcademy.Infrastructure
 
 			services.AddScoped<ICourseReadRepository, CourseReadRepository>();
 			services.AddScoped<ICourseRepository, CourseRepository>();
+			services.AddScoped<ICertificateRepository, CertificateRepository>();
+			services.AddScoped<ICertificateReadRepository, CertificateReadRepository>();
 
 			#endregion
 

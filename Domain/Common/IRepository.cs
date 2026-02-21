@@ -3,9 +3,9 @@
     public interface IRepository<T>
     where T : AggregateRoot
     {
+        Task<bool> Exists(Guid id);
         Task<T?> GetByIdAsync(Guid id);
-        bool Exists(Guid id);
-        void Add(T course);
-        void Remove(T course);
+        Task AddAsync(T course);
+        Task RemoveAsync(T course);
     }
 }

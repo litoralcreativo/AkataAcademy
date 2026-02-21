@@ -35,45 +35,6 @@ AkataAcademy is an educational platform developed in .NET 8 following the princi
 - HTTP tests included for main endpoints
 - Flexible [EF Core](https://learn.microsoft.com/en-us/ef/core/) configuration (InMemory, SQL Server, PostgreSQL)
 
-```mermaid
-flowchart RL
-    subgraph Enrollment_BC
-        direction LR
-        CEn@{ shape: dbl-circ, label: "<b>CourseEnrollment</b><br>{Agregate root}" }
-        Si2@{ shape: hex, label: "<b>StudentId</b>" }
-        Ci2@{ shape: hex, label: "<b>CourseId</b>" }
-        Pr@{ shape: rounded, label: "<b>Progress</b><br>{Entity}" }
-        CP@{ shape: hex, label: "<b>CompletitionPercentage</b>" }
-        CEn ---> Si2 & Ci2 & Pr
-        Pr ---> CP
-    end
-
-    subgraph Certification_BC
-        direction LR
-        CEr@{ shape: dbl-circ, label: "<b>Certificate</b><br>{Agregate root}" }
-        Si@{ shape: hex, label: "<b>StudentId</b>" }
-        Ci@{ shape: hex, label: "<b>CourseId</b>" }
-        Id@{ shape: hex, label: "<b>IssueDate</b>" }
-        Ed@{ shape: hex, label: "<b>ExpirationDate</b>" }
-        CEr ---> Si & Ci & Id & Ed
-    end
-
-    subgraph Catalog_BC
-        direction LR
-        C@{ shape: dbl-circ, label: "<b>Course</b><br>{Agregate root}" }
-        CM@{ shape: rounded, label: "<b>Course Module</b><br>{Entity}" }
-        Ct@{ shape: hex, label: "<b>Title</b>" }
-        Cd@{ shape: hex, label: "<b>Description</b>" }
-        CMt@{ shape: hex, label: "<b>Title</b>" }
-        CMd@{ shape: hex, label: "<b>Duration</b>" }
-        C ---> CM
-        C ---> Ct
-        C ---> Cd
-        CM ---> CMt
-        CM ---> CMd
-    end
-```
-
 ## Architecture
 
 The project follows Clean Architecture, with a clear separation of responsibilities into four main layers: Domain, Application, Infrastructure, and Presentation. For a detailed description of each layer and their responsibilities, see the [Project Structure](#project-structure) section below.
@@ -112,7 +73,7 @@ AkataAcademy.sln
 **Layered Overview:**
 
 - **Application:** Use cases, commands, queries, DTOs, and handler registration.
-- **Domain:** Core business logic, entities, value objects, and domain events, organized by bounded context.
+- **Domain:** Core business logic, entities, value objects, and domain events, organized by bounded context. [🔎 Domain Layer Overview](Domain/readme.md)
 - **Infrastructure:** Persistence (EF Core), messaging, repository implementations, and configurations.
 - **Presentation:** API controllers, minimal API endpoints, configuration files, and HTTP test scripts.
 

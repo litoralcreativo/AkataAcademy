@@ -27,20 +27,20 @@ namespace AkataAcademy.Presentation.Controllers
 		}
 
 		[HttpGet(Name = "GetCatalog")]
-		public async Task<IEnumerable<CourseDto>> Get([FromQuery] bool published = false)
+		public async Task<ActionResult<IEnumerable<CourseDto>>> Get([FromQuery] bool published = false)
 		{
 
 			if (published)
 			{
 				var query = new GetPublishedCoursesQuery();
 				var result = await _queryDispatcher.Dispatch(query);
-				return result.Value;
+				return Ok(result.Value);
 			}
 			else
 			{
 				var query = new GetNotPublishedCoursesQuery();
 				var result = await _queryDispatcher.Dispatch(query);
-				return result.Value;
+				return Ok(result.Value);
 			}
 		}
 
@@ -48,7 +48,9 @@ namespace AkataAcademy.Presentation.Controllers
 		public async Task<ActionResult<Guid>> Create([FromBody] CreateCourseCommand command)
 		{
 			var result = await _commandDispatcher.Dispatch(command);
-			return Ok(result);
+			if (!result.IsSuccess)
+				return BadRequest(result.Error);
+			return CreatedAtAction(nameof(Get), new { published = true }, result.Value);
 		}
 	}
 }

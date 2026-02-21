@@ -2,9 +2,9 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.Certification.ValueObjects
 {
-  public class IssueDate : ValueObject
+  public record IssueDate : IValueObject
   {
-    public DateTime Value { get; private set; }
+    public DateTime Value { get; init; }
 
     protected IssueDate() { }
 
@@ -14,11 +14,6 @@ namespace AkataAcademy.Domain.BoundedContexts.Certification.ValueObjects
         throw new DomainException("IssueDate cannot be empty.");
 
       Value = value;
-    }
-
-    protected override IEnumerable<object> GetEqualityComponents()
-    {
-      yield return Value;
     }
   }
 }
