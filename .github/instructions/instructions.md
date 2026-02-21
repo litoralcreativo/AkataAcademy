@@ -86,13 +86,34 @@ The solution must be organized into clearly separated layers:
 
 ## 5. Best Practices
 
+- **Credential management**: Never store sensitive credentials in appsettings.json or source code. Use `dotnet user-secrets` for local development and environment variables for production.
+- **Database migrations**: Document migration commands in README. Always create and apply migrations after model changes. Use EF Core tools for migration management.
+- **Switching database providers**: For quick testing, use the InMemory provider. Comment/uncomment the relevant lines in DependencyInjection.cs as described in README.
 - **Clear names**: Use descriptive names for classes, methods, and files.
 - **Documentation**: Comment code where necessary and keep this file updated. All documentation must be in English.
-- **Testing**: All new code must include unit tests and, if applicable, integration tests.
+- **Testing**: All new code must include unit tests and, if applicable, integration tests. Use InMemory database for fast tests.
 - **Domain events**: Register relevant events and handle them asynchronously if possible.
 - **Avoid logic in controllers**: All logic should be in the application or domain layer.
 - **Do not access infrastructure directly from the domain**.
 - **REST API conventions**: Controllers must translate Result objects to appropriate ActionResult responses. For collection queries, always return 200 OK with an empty list if no elements are found. Only return 404 for single resource queries when the resource does not exist.
+
+---
+
+## 5.1 Database Configuration and Testing
+
+- **PostgreSQL setup**: Use Npgsql provider and store connection string securely with user-secrets.
+- **InMemory for testing**: Switch to InMemory provider for local or CI tests by commenting/uncommenting lines in DependencyInjection.cs. See README for details.
+- **Migration workflow**: After changing the model, run:
+  ```bash
+  dotnet ef migrations add <MigrationName> --project Infrastructure --startup-project Presentation
+  dotnet ef database update --project Infrastructure --startup-project Presentation
+  ```
+- **Resetting migrations**: If you drop the database, delete the Migrations folder and the \_\_EFMigrationsHistory table, then create a new migration.
+- **Credential tips**: List and remove user-secrets with:
+  ```bash
+  dotnet user-secrets list
+  dotnet user-secrets remove "ConnectionStrings:DefaultConnection"
+  ```
 
 ---
 
