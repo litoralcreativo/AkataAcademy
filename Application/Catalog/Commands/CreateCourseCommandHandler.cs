@@ -8,28 +8,31 @@ namespace AkataAcademy.Application.Catalog.Commands
 {
     public class CreateCourseCommandHandler : ICommandHandler<CreateCourseCommand, Guid>
     {
-        private readonly ICourseRepository __courseRepository;
+        private readonly ICourseRepository _courseRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         public CreateCourseCommandHandler(
             ICourseRepository repository,
             IUnitOfWork unitOfWork)
         {
-            __courseRepository = repository;
+            _courseRepository = repository;
             _unitOfWork = unitOfWork;
         }
 
         public async Task<Result<Guid>> Handle(CreateCourseCommand command)
         {
             var course = Course.Create(
-                new CourseTitle(command.Title),
-                new CourseDescription(command.Description));
+                CourseTitle.From(command.Title),
+                CourseDescription.From(command.Description));
 
-            await __courseRepository.AddAsync(course);
+            if (course.IsFailure)
+                return Result.Failure<Guid>(course.Error);
+
+            await _courseRepository.AddAsync(course.Value);
 
             await _unitOfWork.SaveChangesAsync();
 
-            return course.Id;
+            return course.Value.Id;
         }
     }
 }

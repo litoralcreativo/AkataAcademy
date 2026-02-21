@@ -15,9 +15,16 @@ namespace AkataAcademy.Application.Dispatchers
 
 		public async Task<Result<TResult>> Dispatch<TResult>(IQuery<TResult> query)
 		{
-			var handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
-			dynamic handler = _serviceProvider.GetRequiredService(handlerType);
-			return await handler.Handle((dynamic)query);
+			try
+			{
+				var handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
+				dynamic handler = _serviceProvider.GetRequiredService(handlerType);
+				return await handler.Handle((dynamic)query);
+			}
+			catch (Exception ex)
+			{
+				return Result.Failure<TResult>(Error.Failure("QueryDispatcher", ex.Message));
+			}
 		}
 	}
 }

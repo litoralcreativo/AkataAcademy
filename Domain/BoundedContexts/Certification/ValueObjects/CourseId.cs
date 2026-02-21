@@ -2,9 +2,14 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.Certification.ValueObjects
 {
-    public record CourseId(Guid Value) : IValueObject
+    public record CourseId : IValueObject
     {
-        protected CourseId() : this(Guid.Empty) { }
+        public Guid Value { get; }
+
+        private CourseId(Guid value)
+        {
+            Value = value;
+        }
 
         public static CourseId From(Guid value)
         {

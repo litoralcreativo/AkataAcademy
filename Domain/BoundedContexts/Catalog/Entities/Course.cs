@@ -34,41 +34,63 @@ namespace AkataAcademy.Domain.BoundedContexts.Catalog.Entities
             AddDomainEvent(new CourseCreated(Id));
         }
 
-        public static Course Create(
+        public static Result<Course> Create(
             CourseTitle title,
             CourseDescription description)
         {
-            return new Course(title, description);
+            try
+            {
+                return new Course(title, description);
+            }
+            catch (DomainException ex)
+            {
+                return Result.Failure<Course>(Error.Validation(ErrorCodes.Course.Creation, ex.Message));
+            }
+            catch (Exception)
+            {
+                return Result.Failure<Course>(Error.Failure(ErrorCodes.General.Conflict, "An unexpected error occurred while creating the course."));
+            }
         }
 
-        public void AddModule(ModuleTitle title, ModuleDuration duration)
+        public Result AddModule(ModuleTitle title, ModuleDuration duration)
         {
             if (IsPublished)
-                throw new DomainException("No modules can be added to a published course");
+                return Result.Failure<Course>(Error.Validation(ErrorCodes.Course.ModuleManagment, "No modules can be added to a published course"));
 
             if (_modules.Any(m => m.Title.Equals(title)))
-                throw new DomainException("A module with that title already exists in this course");
+                return Result.Failure<Course>(Error.Validation(ErrorCodes.Course.ModuleManagment, "A module with that title already exists in this course"));
 
-            var module = new CourseModule(Id, title, duration);
+            try
+            {
+                var module = new CourseModule(Id, title, duration);
+                _modules.Add(module);
 
-            _modules.Add(module);
-            // Sincroniza la colección pública
-            // (no es necesario si Modules solo expone _modules)
+                AddDomainEvent(new ModuleAddedToCourse(Id, module.Id));
+                return Result.Success();
+            }
+            catch (DomainException ex)
+            {
+                return Result.Failure<Course>(Error.Validation(ErrorCodes.Course.ModuleManagment, ex.Message));
+            }
+            catch (Exception)
+            {
+                return Result.Failure<Course>(Error.Failure(ErrorCodes.General.Conflict, "An unexpected error occurred while adding the module."));
+            }
 
-            AddDomainEvent(new ModuleAddedToCourse(Id, module.Id));
         }
 
-        public void Publish()
+        public Result Publish()
         {
             if (IsPublished)
-                throw new DomainException("The course is already published");
+                return Result.Failure(Error.Validation(ErrorCodes.Course.Publishing, "The course is already published"));
 
             if (!_modules.Any())
-                throw new DomainException("A course cannot be published without modules");
+                return Result.Failure(Error.Validation(ErrorCodes.Course.Publishing, "A course cannot be published without modules"));
 
             IsPublished = true;
 
             AddDomainEvent(new CoursePublished(Id));
+            return Result.Success();
         }
     }
 }
