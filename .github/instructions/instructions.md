@@ -99,10 +99,10 @@ The solution must be organized into clearly separated layers:
 
 ---
 
-## 5.1 Database Configuration and Testing
+## 6 Database Configuration and Testing
 
 - **PostgreSQL setup**: Use Npgsql provider and store connection string securely with user-secrets.
-- **InMemory for testing**: Switch to InMemory provider for local or CI tests by commenting/uncommenting lines in DependencyInjection.cs. See README for details.
+  - (tip) **InMemory**: Switch to InMemory provider for local or CI tests by commenting/uncommenting lines in DependencyInjection.cs.
 - **Migration workflow**: After changing the model, run:
   ```bash
   dotnet ef migrations add <MigrationName> --project Infrastructure --startup-project Presentation
@@ -117,7 +117,7 @@ The solution must be organized into clearly separated layers:
 
 ---
 
-## 6. CQRS Flow Example
+## 7. CQRS Flow Example
 
 1. **Command**: The user sends a request to create a course.
 2. **Handler**: The handler validates the command and uses the domain to create the entity.
@@ -128,7 +128,7 @@ The solution must be organized into clearly separated layers:
 
 ---
 
-## 7. Code Conventions
+## 8. Code Conventions
 
 - Use 4 spaces for indentation.
 - Follow C# and .NET conventions for naming and organization.
@@ -138,7 +138,7 @@ The solution must be organized into clearly separated layers:
 
 ---
 
-## 8. Review and Pull Requests
+## 9. Review and Pull Requests
 
 - All changes must go through code review.
 - Include a clear description of changes and reference related issues.
@@ -147,11 +147,17 @@ The solution must be organized into clearly separated layers:
 
 ---
 
-## 9. Useful Resources
+## 10. Useful Resources
 
 - [Domain-Driven Design Reference](https://domainlanguage.com/ddd/reference/)
 - [Clean Architecture by Uncle Bob](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html)
 - [CQRS Pattern](https://docs.microsoft.com/en-us/azure/architecture/patterns/cqrs)
+
+---
+
+## 11. Other References
+
+For detailed testing strategy and examples, see [testing-guidelines.md](./testing-guidelines.md).
 
 ---
 

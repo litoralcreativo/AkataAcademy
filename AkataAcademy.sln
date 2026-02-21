@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkataAcademy.Application", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkataAcademy.Infrastructure", "Infrastructure\AkataAcademy.Infrastructure.csproj", "{3B091505-E020-429D-8FC0-09C51BD29B33}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkataAcademy.UnitTests", "Tests\UnitTests\AkataAcademy.UnitTests.csproj", "{D7A61975-0AB4-4069-890C-1C32121AFD83}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{87BAE9B7-5D52-48D8-9CA3-E2C68E240EBB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,8 +37,15 @@ Global
 		{3B091505-E020-429D-8FC0-09C51BD29B33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B091505-E020-429D-8FC0-09C51BD29B33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B091505-E020-429D-8FC0-09C51BD29B33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7A61975-0AB4-4069-890C-1C32121AFD83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7A61975-0AB4-4069-890C-1C32121AFD83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7A61975-0AB4-4069-890C-1C32121AFD83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7A61975-0AB4-4069-890C-1C32121AFD83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D7A61975-0AB4-4069-890C-1C32121AFD83} = {87BAE9B7-5D52-48D8-9CA3-E2C68E240EBB}
 	EndGlobalSection
 EndGlobal
