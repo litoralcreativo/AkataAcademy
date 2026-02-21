@@ -2,13 +2,9 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.Catalog.ValueObjects
 {
-    public record CourseTitle : IValueObject
+    public record CourseTitle(string Value) : IValueObject
     {
-        public string Value { get; init; } = string.Empty;
-
-        protected CourseTitle() { }
-
-        public CourseTitle(string value)
+        public static CourseTitle From(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
                 throw new DomainException("Course title cannot be empty.");
@@ -16,7 +12,7 @@ namespace AkataAcademy.Domain.BoundedContexts.Catalog.ValueObjects
             if (value.Length > 100)
                 throw new DomainException("Title is too long. Maximum length is 100 characters.");
 
-            Value = value;
+            return new CourseTitle(value);
         }
     }
 }

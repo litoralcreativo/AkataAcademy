@@ -2,18 +2,16 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.Certification.ValueObjects
 {
-    public record StudentId : IValueObject
+    public record StudentId(Guid Value) : IValueObject
     {
-        public Guid Value { get; init; }
+        protected StudentId() : this(Guid.Empty) { }
 
-        protected StudentId() { }
-
-        public StudentId(Guid value)
+        public static StudentId From(Guid value)
         {
             if (value == Guid.Empty)
                 throw new DomainException("Invalid StudentId. Guid cannot be empty.");
 
-            Value = value;
+            return new StudentId(value);
         }
     }
 }
