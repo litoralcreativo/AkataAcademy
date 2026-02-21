@@ -4,6 +4,8 @@ applyTo: "**"
 
 ## Project Development Instructions
 
+For business context and domain rules, see domain-context.md.
+
 This project is designed to follow the principles of **Domain-Driven Design (DDD)**, **Clean Architecture**, and **CQRS (Command Query Responsibility Segregation)**. Below are the conventions, structure, and best practices recommended to contribute and maintain code quality.
 
 ---

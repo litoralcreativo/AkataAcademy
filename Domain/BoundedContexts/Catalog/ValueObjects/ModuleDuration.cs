@@ -2,17 +2,14 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.Catalog.ValueObjects
 {
-    public record ModuleDuration : IValueObject
+    public record ModuleDuration(int Minutes) : IValueObject
     {
-        public int Minutes { get; init; }
-
-        protected ModuleDuration() { }
-
-        public ModuleDuration(int minutes)
+        public static ModuleDuration From(int minutes)
         {
             if (minutes <= 0)
                 throw new DomainException("Module duration must be positive.");
-            Minutes = minutes;
+
+            return new ModuleDuration(minutes);
         }
     }
 }

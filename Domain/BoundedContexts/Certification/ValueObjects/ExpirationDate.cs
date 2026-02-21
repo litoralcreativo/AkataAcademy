@@ -2,18 +2,14 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.Certification.ValueObjects
 {
-    public record ExpirationDate : IValueObject
+    public record ExpirationDate(DateTime Value) : IValueObject
     {
-        public DateTime Value { get; init; }
-
-        protected ExpirationDate() { }
-
-        public ExpirationDate(DateTime value)
+        public static ExpirationDate From(DateTime value)
         {
             if (value == DateTime.MinValue)
                 throw new DomainException("ExpirationDate cannot be empty.");
-
-            Value = value;
+            return new ExpirationDate(value);
         }
     }
 }
+

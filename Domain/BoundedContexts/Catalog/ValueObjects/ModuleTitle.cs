@@ -2,17 +2,14 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.Catalog.ValueObjects
 {
-    public record ModuleTitle : IValueObject
+    public record ModuleTitle(string Value) : IValueObject
     {
-        public string Value { get; init; } = string.Empty;
-
-        protected ModuleTitle() { }
-
-        public ModuleTitle(string value)
+        public static ModuleTitle From(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
                 throw new DomainException("Module title cannot be empty.");
-            Value = value;
+
+            return new ModuleTitle(value);
         }
     }
 }
