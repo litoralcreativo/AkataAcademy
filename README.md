@@ -13,6 +13,7 @@ AkataAcademy is an educational platform developed in .NET 8 following the princi
   - [Technologies Used](#technologies-used)
   - [Installation and Running](#installation-and-running)
   - [Testing](#testing)
+    - [Switch to InMemory database for testing](#switch-to-inmemory-database-for-testing)
   - [API Usage](#api-usage)
   - [CQRS Workflow and Domain/Integration Events Sequence Diagrams](#cqrs-workflow-and-domainintegration-events-sequence-diagrams)
     - [1a. Command handling: Persistence](#1a-command-handling-persistence)
@@ -133,6 +134,7 @@ flowchart LR
      ```bash
      cd Presentation
      ```
+   - If you want to use the InMemory database for testing, see the section [Switch to InMemory database for testing](#switch-to-inmemory-database-for-testing) further down in this README.
    - Initialize user-secrets:
      ```bash
      dotnet user-secrets init
@@ -181,6 +183,24 @@ flowchart LR
 
 - The `WebAPI.http` file contains examples of GET and POST requests to test the API.
 - You can add unit tests in the future using xUnit, NUnit, or MSTest.
+
+  ### Switch to InMemory database for testing
+  - In `Infrastructure/DependencyInjection.cs`, comment out the Npgsql configuration line and uncomment the InMemory line:
+
+    ```csharp
+    // Comment this block
+    services.AddDbContext<ApplicationDbContext>(
+                options => options
+                    .UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+
+    // Uncomment this block
+    // services.AddDbContext<ApplicationDbContext>(
+    //     options => options
+    //         .UseInMemoryDatabase("AkataAcademyDb"));
+    ```
+
+  - This allows you to run the application without PostgreSQL, ideal for quick tests or local development.
+  - Remember to switch back to the Npgsql configuration for production or PostgreSQL integration.
 
 ## API Usage
 

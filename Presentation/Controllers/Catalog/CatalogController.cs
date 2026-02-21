@@ -62,7 +62,7 @@ namespace AkataAcademy.Presentation.Controllers
 			var result = await _commandDispatcher.Dispatch(command);
 			if (result.IsFailure)
 				return BadRequest(result.Error);
-			return NoContent();
+			return CreatedAtAction(nameof(Get), new { published = false }, result.Value);
 		}
 	}
 }

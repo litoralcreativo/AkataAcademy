@@ -28,6 +28,12 @@ namespace AkataAcademy.Infrastructure
                 options => options
                     .UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
+            // For testing purposes, you can use an in-memory database. Uncomment the following lines and comment out the Npgsql configuration above.
+
+            // services.AddDbContext<ApplicationDbContext>(
+            //     options => options
+            //         .UseInMemoryDatabase("AkataAcademyDb"));
+
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
             #endregion
