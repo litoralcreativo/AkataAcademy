@@ -70,39 +70,42 @@ namespace AkataAcademy.UnitTests.Domain.Certification
 			Assert.True(result.IsFailure);
 		}
 
-		[Fact]
-		public void Create_WithValidData_ShouldSucceed()
+		[Theory]
+		[MemberData(nameof(ValidCertificationData), MemberType = typeof(CertificationTestElements))]
+		public void Create_WithValidData_ShouldSucceed(StudentId studentId, CourseId courseId, IssueDate issueDate, ExpirationDate expirationDate)
 		{
-			var result = Certificate.Issue(ValidStudentId, ValidCourseId, ValidIssueDate, ValidExpirationDate);
+			var result = Certificate.Issue(studentId, courseId, issueDate, expirationDate);
 			Assert.True(result.IsSuccess);
 			Assert.NotNull(result.Value);
-			Assert.Equal(ValidStudentId, result.Value.StudentId);
-			Assert.Equal(ValidCourseId, result.Value.CourseId);
-			Assert.Equal(ValidIssueDate, result.Value.IssuedOn);
-			Assert.Equal(ValidExpirationDate, result.Value.ExpiresOn);
+			Assert.Equal(studentId, result.Value.StudentId);
+			Assert.Equal(courseId, result.Value.CourseId);
+			Assert.Equal(issueDate, result.Value.IssuedOn);
+			Assert.Equal(expirationDate, result.Value.ExpiresOn);
 		}
 
-		[Fact]
-		public void Create_ShouldEmit_CertificateIssuedDomainEvent()
+		[Theory]
+		[MemberData(nameof(ValidCertificationData), MemberType = typeof(CertificationTestElements))]
+		public void Create_ShouldEmit_CertificateIssuedDomainEvent(StudentId studentId, CourseId courseId, IssueDate issueDate, ExpirationDate expirationDate)
 		{
-			var result = Certificate.Issue(ValidStudentId, ValidCourseId, ValidIssueDate, ValidExpirationDate);
+			var result = Certificate.Issue(studentId, courseId, issueDate, expirationDate);
 			Assert.True(result.IsSuccess);
 			var certificate = result.Value;
 			Assert.Contains(certificate.DomainEvents, e => e is CertificateIssued);
 		}
 
-		[Fact]
-		public void Create_ShouldEmit_CertificateIssuedDomainEvent_WithCorrectData()
+		[Theory]
+		[MemberData(nameof(ValidCertificationData), MemberType = typeof(CertificationTestElements))]
+		public void Create_ShouldEmit_CertificateIssuedDomainEvent_WithCorrectData(StudentId studentId, CourseId courseId, IssueDate issueDate, ExpirationDate expirationDate)
 		{
-			var result = Certificate.Issue(ValidStudentId, ValidCourseId, ValidIssueDate, ValidExpirationDate);
+			var result = Certificate.Issue(studentId, courseId, issueDate, expirationDate);
 			Assert.True(result.IsSuccess);
 			var certificate = result.Value;
 			var domainEvent = certificate.DomainEvents.OfType<CertificateIssued>().FirstOrDefault();
 			Assert.NotNull(domainEvent);
 			Assert.Equal(certificate.Id, domainEvent.CertificateId);
-			Assert.Equal(ValidStudentId.Value, domainEvent.StudentId);
-			Assert.Equal(ValidCourseId.Value, domainEvent.CourseId);
-			Assert.Equal(ValidIssueDate.Value, domainEvent.IssuedOn);
+			Assert.Equal(studentId.Value, domainEvent.StudentId);
+			Assert.Equal(courseId.Value, domainEvent.CourseId);
+			Assert.Equal(issueDate.Value, domainEvent.IssuedOn);
 		}
 	}
 }
