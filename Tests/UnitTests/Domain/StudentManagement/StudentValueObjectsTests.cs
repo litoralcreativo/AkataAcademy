@@ -29,12 +29,6 @@ namespace AkataAcademy.UnitTests.Domain.StudentManagement
 		}
 
 		[Fact]
-		public void Email_FromInvalidFormat_ShouldThrow()
-		{
-			Assert.Throws<DomainException>(() => Email.From("not-an-email"));
-		}
-
-		[Fact]
 		public void DateOfBirth_FromInvalidDate_ShouldThrow()
 		{
 			Assert.Throws<DomainException>(() => DateOfBirth.From(DateTime.UtcNow + TimeSpan.FromDays(1)));
@@ -53,6 +47,20 @@ namespace AkataAcademy.UnitTests.Domain.StudentManagement
 		{
 			var s = StudentStatus.From(status);
 			Assert.Equal(canEnroll, s.CanEnroll());
+		}
+
+		[Theory]
+		[MemberData(nameof(InvalidFullNamesData), MemberType = typeof(StudentManagementTestElements))]
+		public void FullName_FromInvalidData_ShouldThrow(string firstName, string lastName)
+		{
+			Assert.Throws<DomainException>(() => FullName.From(firstName, lastName));
+		}
+
+		[Theory]
+		[MemberData(nameof(InvalidEmailsData), MemberType = typeof(StudentManagementTestElements))]
+		public void Email_FromInvalidData_ShouldThrow(string email)
+		{
+			Assert.Throws<DomainException>(() => Email.From(email));
 		}
 	}
 }

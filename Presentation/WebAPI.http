@@ -2,12 +2,12 @@
 @courseId = 00000000-0000-0000-0000-000000000000
 # --- Courses Endpoints ---
 
-GET {{WebAPI_HostAddress}}/Catalog/?published=false
+GET {{WebAPI_HostAddress}}/api/Catalog/?published=false
 Accept: application/json
 
 ###
 
-POST {{WebAPI_HostAddress}}/Catalog/
+POST {{WebAPI_HostAddress}}/api/Catalog/
 Content-Type: application/json
 Accept: application/json
 
@@ -19,7 +19,7 @@ Accept: application/json
 ###
 
 # Add module to course
-POST {{WebAPI_HostAddress}}/Catalog/{{courseId}}/modules
+POST {{WebAPI_HostAddress}}/api/Catalog/{{courseId}}/modules
 Content-Type: application/json
 Accept: application/json
 
@@ -55,3 +55,54 @@ Accept: application/json
   "issueDate": "2026-02-20T00:00:00Z",
   "expirationDate": "2027-02-20T00:00:00Z"
 }
+
+###
+# --- Students Endpoints ---
+
+# Registrar estudiante
+POST {{WebAPI_HostAddress}}/api/students
+Content-Type: application/json
+Accept: application/json
+{
+  "firstName": "Juan",
+  "lastName": "Perez",
+  "email": "juan@mail.com",
+  "dateOfBirth": "2000-01-01"
+}
+
+###
+# Obtener todos los estudiantes
+GET {{WebAPI_HostAddress}}/api/students
+Accept: application/json
+
+###
+# Obtener estudiante por ID
+GET {{WebAPI_HostAddress}}/api/students/00000000-0000-0000-0000-000000000000
+Accept: application/json
+
+###
+# Actualizar estudiante
+PUT {{WebAPI_HostAddress}}/api/students/00000000-0000-0000-0000-000000000000
+Content-Type: application/json
+Accept: application/json
+{
+  "firstName": "Juan",
+  "lastName": "Perez",
+  "email": "juan_actualizado@mail.com",
+  "dateOfBirth": "2000-01-01"
+}
+
+###
+# Suspender estudiante
+POST {{WebAPI_HostAddress}}/api/students/00000000-0000-0000-0000-000000000000/suspend
+Accept: application/json
+
+###
+# Activar estudiante
+POST {{WebAPI_HostAddress}}/api/students/00000000-0000-0000-0000-000000000000/activate
+Accept: application/json
+
+###
+# Eliminar estudiante
+DELETE {{WebAPI_HostAddress}}/api/students/00000000-0000-0000-0000-000000000000
+Accept: application/json

@@ -3,6 +3,7 @@ using System;
 using AkataAcademy.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AkataAcademy.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260222042919_StudentManagementInit")]
+    partial class StudentManagementInit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,24 +72,11 @@ namespace AkataAcademy.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("DateOfBirth");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("Email");
-
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
 
                     b.ToTable("Students");
                 });
@@ -264,6 +254,45 @@ namespace AkataAcademy.Infrastructure.Migrations
 
             modelBuilder.Entity("AkataAcademy.Domain.BoundedContexts.StudentManagement.Entities.Student", b =>
                 {
+                    b.OwnsOne("AkataAcademy.Domain.BoundedContexts.StudentManagement.ValueObjects.DateOfBirth", "DateOfBirth", b1 =>
+                        {
+                            b1.Property<Guid>("StudentId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<DateTime>("Value")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("DateOfBirth");
+
+                            b1.HasKey("StudentId");
+
+                            b1.ToTable("Students");
+
+                            b1.WithOwner()
+                                .HasForeignKey("StudentId");
+                        });
+
+                    b.OwnsOne("AkataAcademy.Domain.BoundedContexts.StudentManagement.ValueObjects.Email", "Email", b1 =>
+                        {
+                            b1.Property<Guid>("StudentId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(255)
+                                .HasColumnType("character varying(255)")
+                                .HasColumnName("Email");
+
+                            b1.HasKey("StudentId");
+
+                            b1.HasIndex("Value")
+                                .IsUnique();
+
+                            b1.ToTable("Students");
+
+                            b1.WithOwner()
+                                .HasForeignKey("StudentId");
+                        });
+
                     b.OwnsOne("AkataAcademy.Domain.BoundedContexts.StudentManagement.ValueObjects.FullName", "Name", b1 =>
                         {
                             b1.Property<Guid>("StudentId")
@@ -288,6 +317,12 @@ namespace AkataAcademy.Infrastructure.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("StudentId");
                         });
+
+                    b.Navigation("DateOfBirth")
+                        .IsRequired();
+
+                    b.Navigation("Email")
+                        .IsRequired();
 
                     b.Navigation("Name")
                         .IsRequired();

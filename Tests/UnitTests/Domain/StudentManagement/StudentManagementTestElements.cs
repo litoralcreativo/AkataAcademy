@@ -38,5 +38,24 @@ namespace AkataAcademy.UnitTests.Domain.StudentManagement
 		public static IEnumerable<object[]> ValidStudentData =>
 			ValidFullNames.Zip(ValidEmails, (fn, em) => new { fn, em })
 			.Zip(ValidDateOfBirths, (pair, dob) => new object[] { pair.fn, pair.em, dob });
+
+		public static IEnumerable<object[]> InvalidFullNamesData => new List<object[]>
+		{
+			new object[] { "", "Apellido" },
+			new object[] { "A", "Apellido" },
+			new object[] { new string('A', 51), "Apellido" },
+			new object[] { "Nombre", "" },
+			new object[] { "Nombre", "A" },
+			new object[] { "Nombre", new string('B', 51) },
+		};
+
+		public static IEnumerable<object[]> InvalidEmailsData => new List<object[]>
+		{
+			new object[] { "not-an-email" },
+			new object[] { "@domain.com" },
+			new object[] { "user@" },
+			new object[] { "user@domain" },
+			new object[] { "userdomain.com" },
+		};
 	}
 }
