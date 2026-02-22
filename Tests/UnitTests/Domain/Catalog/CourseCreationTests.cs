@@ -60,5 +60,16 @@ namespace AkataAcademy.UnitTests.Domain.Catalog
 			var course = result.Value;
 			Assert.Contains(course.DomainEvents, e => e is CourseCreated);
 		}
+
+		[Fact]
+		public void CourseCreated_EventIsEmittedOnCreation_WithCorrectData()
+		{
+			var result = Course.Create(ValidTitle, ValidDescription);
+			Assert.True(result.IsSuccess);
+			var course = result.Value;
+			var domainEvent = course.DomainEvents.OfType<CourseCreated>().FirstOrDefault();
+			Assert.NotNull(domainEvent);
+			Assert.Equal(course.Id, domainEvent.CourseId);
+		}
 	}
 }

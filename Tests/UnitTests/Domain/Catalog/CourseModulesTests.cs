@@ -102,5 +102,16 @@ namespace AkataAcademy.UnitTests.Domain.Catalog
 			Assert.True(result2.IsFailure);
 			Assert.Single(course.DomainEvents, e => e is ModuleAddedToCourse);
 		}
+
+		[Fact]
+		public void ModuleAddedToCourse_EventIsEmittedOnAddModule_WithCorrectData()
+		{
+			var course = Course.Create(ValidTitle, ValidDescription).Value;
+			var addResult = course.AddModule(ValidModuleTitle, ValidModuleDuration);
+			Assert.True(addResult.IsSuccess);
+			var domainEvent = course.DomainEvents.OfType<ModuleAddedToCourse>().FirstOrDefault();
+			Assert.NotNull(domainEvent);
+			Assert.Equal(course.Id, domainEvent.CourseId);
+		}
 	}
 }
