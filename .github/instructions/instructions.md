@@ -86,9 +86,12 @@ The solution must be organized into clearly separated layers:
 
 ## 5. Best Practices
 
+- **Credential management**: Never store sensitive credentials in appsettings.json or source code. Use `dotnet user-secrets` for local development and environment variables for production.
+- **Database migrations**: Document migration commands in README. Always create and apply migrations after model changes. Use EF Core tools for migration management.
+- **Switching database providers**: For quick testing, use the InMemory provider. Comment/uncomment the relevant lines in DependencyInjection.cs as described in README.
 - **Clear names**: Use descriptive names for classes, methods, and files.
 - **Documentation**: Comment code where necessary and keep this file updated. All documentation must be in English.
-- **Testing**: All new code must include unit tests and, if applicable, integration tests.
+- **Testing**: All new code must include unit tests and, if applicable, integration tests. Use InMemory database for fast tests.
 - **Domain events**: Register relevant events and handle them asynchronously if possible.
 - **Avoid logic in controllers**: All logic should be in the application or domain layer.
 - **Do not access infrastructure directly from the domain**.
@@ -96,7 +99,25 @@ The solution must be organized into clearly separated layers:
 
 ---
 
-## 6. CQRS Flow Example
+## 6 Database Configuration and Testing
+
+- **PostgreSQL setup**: Use Npgsql provider and store connection string securely with user-secrets.
+  - (tip) **InMemory**: Switch to InMemory provider for local or CI tests by commenting/uncommenting lines in DependencyInjection.cs.
+- **Migration workflow**: After changing the model, run:
+  ```bash
+  dotnet ef migrations add <MigrationName> --project Infrastructure --startup-project Presentation
+  dotnet ef database update --project Infrastructure --startup-project Presentation
+  ```
+- **Resetting migrations**: If you drop the database, delete the Migrations folder and the \_\_EFMigrationsHistory table, then create a new migration.
+- **Credential tips**: List and remove user-secrets with:
+  ```bash
+  dotnet user-secrets list
+  dotnet user-secrets remove "ConnectionStrings:DefaultConnection"
+  ```
+
+---
+
+## 7. CQRS Flow Example
 
 1. **Command**: The user sends a request to create a course.
 2. **Handler**: The handler validates the command and uses the domain to create the entity.
@@ -107,7 +128,7 @@ The solution must be organized into clearly separated layers:
 
 ---
 
-## 7. Code Conventions
+## 8. Code Conventions
 
 - Use 4 spaces for indentation.
 - Follow C# and .NET conventions for naming and organization.
@@ -117,7 +138,7 @@ The solution must be organized into clearly separated layers:
 
 ---
 
-## 8. Review and Pull Requests
+## 9. Review and Pull Requests
 
 - All changes must go through code review.
 - Include a clear description of changes and reference related issues.
@@ -126,11 +147,17 @@ The solution must be organized into clearly separated layers:
 
 ---
 
-## 9. Useful Resources
+## 10. Useful Resources
 
 - [Domain-Driven Design Reference](https://domainlanguage.com/ddd/reference/)
 - [Clean Architecture by Uncle Bob](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html)
 - [CQRS Pattern](https://docs.microsoft.com/en-us/azure/architecture/patterns/cqrs)
+
+---
+
+## 11. Other References
+
+For detailed testing strategy and examples, see [testing-guidelines.md](./testing-guidelines.md).
 
 ---
 
