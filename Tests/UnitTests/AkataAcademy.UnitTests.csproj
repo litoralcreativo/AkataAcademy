@@ -17,6 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Application\AkataAcademy.Application.csproj" />
+    <ProjectReference Include="..\..\Domain\AkataAcademy.Domain.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\AkataAcademy.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 

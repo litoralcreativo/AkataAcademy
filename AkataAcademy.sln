@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkataAcademy.Infrastructure
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkataAcademy.UnitTests", "Tests\UnitTests\AkataAcademy.UnitTests.csproj", "{D7A61975-0AB4-4069-890C-1C32121AFD83}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{87BAE9B7-5D52-48D8-9CA3-E2C68E240EBB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6180A90B-C6A3-4130-B438-99FB24D556B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +46,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D7A61975-0AB4-4069-890C-1C32121AFD83} = {87BAE9B7-5D52-48D8-9CA3-E2C68E240EBB}
+		{D7A61975-0AB4-4069-890C-1C32121AFD83} = {6180A90B-C6A3-4130-B438-99FB24D556B0}
 	EndGlobalSection
 EndGlobal
