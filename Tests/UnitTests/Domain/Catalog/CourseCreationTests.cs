@@ -31,14 +31,6 @@ namespace AkataAcademy.UnitTests.Domain.Catalog
 			Assert.True(withNullDescription.IsFailure);
 		}
 
-		[Fact]
-		public void Create_WithValidData_ShouldSucceed()
-		{
-			var result = Course.Create(ValidTitle, ValidDescription);
-			Assert.True(result.IsSuccess);
-			Assert.NotNull(result.Value);
-		}
-
 		[Theory]
 		[InlineData(5)]
 		[InlineData(10)]
@@ -52,13 +44,47 @@ namespace AkataAcademy.UnitTests.Domain.Catalog
 			Assert.NotNull(result.Value);
 		}
 
-		[Fact]
-		public void CourseCreated_EventIsEmittedOnCreation()
+		[Theory]
+		[MemberData(nameof(ValidCourseData), MemberType = typeof(CatalogTestElements))]
+		public void Create_WithValidData_ShouldSucceed(CourseTitle title, CourseDescription description)
 		{
-			var result = Course.Create(ValidTitle, ValidDescription);
+			var result = Course.Create(title, description);
+			Assert.True(result.IsSuccess);
+			Assert.NotNull(result.Value);
+		}
+
+		[Theory]
+		[MemberData(nameof(ValidCourseModuleData), MemberType = typeof(CatalogTestElements))]
+		public void CourseCreated_EventIsEmittedOnCreation(CourseTitle title, CourseDescription description, ModuleTitle moduleTitle, ModuleDuration moduleDuration)
+		{
+			var result = Course.Create(title, description);
 			Assert.True(result.IsSuccess);
 			var course = result.Value;
 			Assert.Contains(course.DomainEvents, e => e is CourseCreated);
+		}
+
+		[Theory]
+		[MemberData(nameof(ValidCourseModuleData), MemberType = typeof(CatalogTestElements))]
+		public void CourseCreated_EventIsEmittedOnCreation_WithCorrectData(CourseTitle title, CourseDescription description, ModuleTitle moduleTitle, ModuleDuration moduleDuration)
+		{
+			var result = Course.Create(title, description);
+			Assert.True(result.IsSuccess);
+			var course = result.Value;
+			var domainEvent = course.DomainEvents.OfType<CourseCreated>().FirstOrDefault();
+			Assert.NotNull(domainEvent);
+			Assert.Equal(course.Id, domainEvent.CourseId);
+		}
+
+		[Theory]
+		[MemberData(nameof(ValidCourseModuleData), MemberType = typeof(CatalogTestElements))]
+		public void AddModule_ToCourse_ShouldSucceed(CourseTitle title, CourseDescription description, ModuleTitle moduleTitle, ModuleDuration moduleDuration)
+		{
+			var courseResult = Course.Create(title, description);
+			Assert.True(courseResult.IsSuccess);
+			var course = courseResult.Value;
+			var addModuleResult = course.AddModule(moduleTitle, moduleDuration);
+			Assert.True(addModuleResult.IsSuccess);
+			Assert.Contains(course.Modules, m => m.Title == moduleTitle && m.Duration == moduleDuration);
 		}
 	}
 }

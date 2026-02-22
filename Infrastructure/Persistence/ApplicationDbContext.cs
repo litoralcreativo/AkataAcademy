@@ -2,6 +2,7 @@
 using AkataAcademy.Domain.BoundedContexts.Catalog.Entities;
 using AkataAcademy.Domain.BoundedContexts.Certification.Entities;
 using AkataAcademy.Domain.BoundedContexts.Enrollment.Entities;
+using AkataAcademy.Domain.BoundedContexts.StudentManagement.Entities;
 using AkataAcademy.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +22,7 @@ namespace AkataAcademy.Infrastructure.Persistence
         public DbSet<Course> Courses { get; set; }
         public DbSet<CourseModule> CourseModules { get; set; }
         public DbSet<Certificate> Certificates { get; set; }
+        public DbSet<Student> Students { get; set; }
 
         /* public DbSet<CourseEnrollment> Enrollments { get; set; }
          */

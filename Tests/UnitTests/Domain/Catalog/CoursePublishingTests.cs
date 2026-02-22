@@ -54,5 +54,18 @@ namespace AkataAcademy.UnitTests.Domain.Catalog
 			Assert.True(publishResult.IsFailure);
 			Assert.DoesNotContain(course.DomainEvents, e => e is CoursePublished);
 		}
+
+		[Fact]
+		public void CoursePublished_EventIsEmittedOnPublish_WithCorrectData()
+		{
+			var course = Course.Create(ValidTitle, ValidDescription).Value;
+			course.AddModule(ValidModuleTitle, ValidModuleDuration);
+			var publishResult = course.Publish();
+			Assert.True(publishResult.IsSuccess);
+			var domainEvent = course.DomainEvents.OfType<CoursePublished>().FirstOrDefault();
+			Assert.NotNull(domainEvent);
+			Assert.Equal(course.Id, domainEvent.CourseId);
+			Assert.True(domainEvent.OccurredOn <= DateTime.UtcNow && domainEvent.OccurredOn >= DateTime.UtcNow.AddMinutes(-1));
+		}
 	}
 }

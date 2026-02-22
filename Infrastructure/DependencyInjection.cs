@@ -1,12 +1,15 @@
 using AkataAcademy.Infrastructure.Persistence;
 using AkataAcademy.Infrastructure.Messaging;
+using AkataAcademy.Infrastructure.Persistence.Repositories;
 using AkataAcademy.Application.Common;
 using AkataAcademy.Application.Catalog.Queries;
+using AkataAcademy.Application.StudentManagement.Queries;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using AkataAcademy.Domain.BoundedContexts.Catalog.Repositories;
 using AkataAcademy.Domain.BoundedContexts.Certification.Repositories;
+using AkataAcademy.Domain.BoundedContexts.StudentManagement.Repositories;
 using AkataAcademy.Application.Certification.Queries;
 
 namespace AkataAcademy.Infrastructure
@@ -44,6 +47,8 @@ namespace AkataAcademy.Infrastructure
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<ICertificateRepository, CertificateRepository>();
             services.AddScoped<ICertificateReadRepository, CertificateReadRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IStudentReadRepository, StudentReadRepository>();
 
             #endregion
 
