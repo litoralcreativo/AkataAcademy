@@ -15,6 +15,7 @@ AkataAcademy is an educational platform developed in .NET 8 following the princi
   - [Testing](#testing)
     - [Switch to InMemory database for testing](#switch-to-inmemory-database-for-testing)
   - [API Usage](#api-usage)
+    - [Catalog Endpoints](#catalog-endpoints)
   - [CQRS Workflow and Domain/Integration Events Sequence Diagrams](#cqrs-workflow-and-domainintegration-events-sequence-diagrams)
     - [1a. Command handling: Persistence](#1a-command-handling-persistence)
     - [1b. Command handling: Domain/Integration Events](#1b-command-handling-domainintegration-events)
@@ -105,11 +106,12 @@ flowchart LR
 
 - .NET 8
 - Entity Framework Core 8.x
-- InMemory Database Provider (development/test)
+- PostgreSQL (production) / InMemory Database Provider (development/test)
+- Npgsql (PostgreSQL provider for EF Core)
 - CQRS (Command Query Responsibility Segregation)
 - DDD (Domain-Driven Design)
 - Minimal API
-- Value Objects
+- Value Objects with Factory Pattern (`From` method)
 - Dependency Injection
 
 ## Installation and Running
@@ -203,6 +205,8 @@ flowchart LR
   - Remember to switch back to the Npgsql configuration for production or PostgreSQL integration.
 
 ## API Usage
+
+### Catalog Endpoints
 
 - **GET /api/catalog?includeUnpublished=true|false**: Gets published courses or all courses depending on the flag.
 - **POST /api/catalog**: Creates a new course. Example payload:
@@ -404,7 +408,10 @@ graph TD
 
 ## Conventions and Best Practices
 
-- Value Objects are mapped using `OwnsOne` in EF Core.
+- Value Objects use the Factory Pattern with a static `From` method for validation (e.g., `Email.From("user@mail.com")`).
+- Value Objects with a single property are mapped using `HasConversion` in EF Core.
+- Complex Value Objects (multiple properties) are mapped using `OwnsOne` in EF Core.
+- All `DateTime` values are stored in UTC format for PostgreSQL compatibility.
 - Command and query handlers are registered automatically by reflection.
 - MediatR is not used; handlers are resolved via DI.
 - It is recommended to maintain layer separation and avoid circular dependencies.
