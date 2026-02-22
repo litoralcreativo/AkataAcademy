@@ -15,9 +15,13 @@ namespace AkataAcademy.Domain.BoundedContexts.StudentManagement.Entities
 
 		protected Student() { }
 
-		public Student(Guid id, FullName name, Email email, DateOfBirth dateOfBirth)
+		private Student(FullName name, Email email, DateOfBirth dateOfBirth)
 		{
-			Id = id;
+			if (name == null) throw new DomainException("Name is required");
+			if (email == null) throw new DomainException("Email is required");
+			if (dateOfBirth == null) throw new DomainException("DateOfBirth is required");
+
+			Id = Guid.NewGuid();
 			Name = name;
 			Email = email;
 			DateOfBirth = dateOfBirth;
@@ -61,6 +65,22 @@ namespace AkataAcademy.Domain.BoundedContexts.StudentManagement.Entities
 			Status = result.Value;
 			AddDomainEvent(new StudentDeleted(Id));
 			return Result.Success();
+		}
+
+		public static Result<Student> Register(FullName name, Email email, DateOfBirth dateOfBirth)
+		{
+			try
+			{
+				return new Student(name, email, dateOfBirth);
+			}
+			catch (DomainException ex)
+			{
+				return Result.Failure<Student>(Error.Validation(ErrorCodes.Student.Creation, ex.Message));
+			}
+			catch (Exception ex)
+			{
+				return Result.Failure<Student>(Error.Failure(ErrorCodes.General.Conflict, ex.Message));
+			}
 		}
 	}
 }

@@ -3,14 +3,12 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.StudentManagement.ValueObjects
 {
-	public record StudentStatus
+	public record StudentStatus(string Value)
 	{
 		public static readonly StudentStatus Active = new("Active");
 		public static readonly StudentStatus Inactive = new("Inactive");
 		public static readonly StudentStatus Suspended = new("Suspended");
 		public static readonly StudentStatus Deleted = new("Deleted");
-
-		private StudentStatus(string value) { }
 
 		public bool IsActive() => this == Active;
 		public bool IsSuspended() => this == Suspended;
@@ -31,6 +29,8 @@ namespace AkataAcademy.Domain.BoundedContexts.StudentManagement.ValueObjects
 
 		public Result<StudentStatus> Activate()
 		{
+			if (IsActive())
+				return Result.Failure<StudentStatus>(Error.Validation(ErrorCodes.Student.StatusChange, "Student is already active."));
 			if (IsDeleted())
 				return Result.Failure<StudentStatus>(Error.Validation(ErrorCodes.Student.StatusChange, "Cannot activate a deleted student."));
 			return Result.Success(Active);

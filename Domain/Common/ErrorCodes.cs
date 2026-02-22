@@ -20,6 +20,7 @@ namespace AkataAcademy.Domain.Common
 
 		public static class Student
 		{
+			public const string Creation = "Student.Creation";
 			public const string StatusChange = "Student.StatusChange";
 		}
 

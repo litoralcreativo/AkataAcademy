@@ -1,3 +1,4 @@
+using AkataAcademy.Domain.Common;
 using System;
 
 namespace AkataAcademy.Domain.BoundedContexts.StudentManagement.ValueObjects
@@ -7,7 +8,7 @@ namespace AkataAcademy.Domain.BoundedContexts.StudentManagement.ValueObjects
 		public static DateOfBirth From(DateTime value)
 		{
 			if (value > DateTime.UtcNow)
-				throw new ArgumentException("Date of birth cannot be in the future.");
+				throw new DomainException("Date of birth cannot be in the future.");
 			return new DateOfBirth(value);
 		}
 	}
