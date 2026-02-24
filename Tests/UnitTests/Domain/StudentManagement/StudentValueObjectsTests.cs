@@ -53,7 +53,7 @@ namespace AkataAcademy.UnitTests.Domain.StudentManagement
 		[MemberData(nameof(InvalidFullNamesData), MemberType = typeof(StudentManagementTestElements))]
 		public void FullName_FromInvalidData_ShouldThrow(string firstName, string lastName)
 		{
-			Assert.Throws<DomainException>(() => FullName.From(firstName, lastName));
+			Assert.Throws<DomainException>(() => FullName.From((firstName, lastName)));
 		}
 
 		[Theory]

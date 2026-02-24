@@ -3,7 +3,7 @@ using System;
 
 namespace AkataAcademy.Domain.BoundedContexts.StudentManagement.ValueObjects
 {
-	public record DateOfBirth(DateTime Value)
+	public record DateOfBirth(DateTime Value) : IValueObject<DateOfBirth, DateTime>
 	{
 		public static DateOfBirth From(DateTime value)
 		{

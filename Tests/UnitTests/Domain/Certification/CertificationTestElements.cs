@@ -4,10 +4,19 @@ namespace AkataAcademy.UnitTests.Domain.Certification
 {
 	public static class CertificationTestElements
 	{
+		// Certificate test data
 		public static readonly StudentId ValidStudentId = StudentId.From(Guid.NewGuid());
 		public static readonly CourseId ValidCourseId = CourseId.From(Guid.NewGuid());
 		public static readonly IssueDate ValidIssueDate = IssueDate.From(new DateTime(2026, 2, 21));
 		public static readonly ExpirationDate ValidExpirationDate = ExpirationDate.From(new DateTime(2027, 2, 21));
+
+		// EligibilityRecord test data
+		public static readonly StudentId EligibilityStudentId = StudentId.From(Guid.NewGuid());
+		public static readonly CourseId EligibilityCourseId = CourseId.From(Guid.NewGuid());
+		public static readonly EligibilityStatus EligibilityStatusPending = EligibilityStatus.Pending();
+		public static readonly EligibilityStatus EligibilityStatusEligible = EligibilityStatus.Eligible();
+		public static readonly EligibilityStatus EligibilityStatusIneligible = EligibilityStatus.Ineligible();
+		public static readonly EligibilityStatus EligibilityStatusRevoked = EligibilityStatus.Revoked();
 
 		public static readonly StudentId[] ValidStudentIds = new[]
 		{

@@ -2,15 +2,8 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.Certification.ValueObjects
 {
-    public record ExpirationDate : IValueObject
+    public record ExpirationDate(DateTime Value) : IValueObject<ExpirationDate, DateTime>
     {
-        public DateTime Value { get; }
-
-        private ExpirationDate(DateTime value)
-        {
-            Value = value;
-        }
-
         public static ExpirationDate From(DateTime value)
         {
             if (value == DateTime.MinValue)

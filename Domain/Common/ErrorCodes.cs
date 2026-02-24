@@ -18,6 +18,20 @@ namespace AkataAcademy.Domain.Common
 			public const string NotFound = "Certificate.NotFound";
 		}
 
+		public static class Eligibility
+		{
+			public const string Creation = "Eligibility.Creation";
+			public const string StateTransition = "Eligibility.StateTransition";
+			public const string NotFound = "Eligibility.NotFound";
+		}
+
+		public static class Enrollment
+		{
+			public const string Creation = "Enrollment.Creation";
+			public const string StateTransition = "Enrollment.StateTransition";
+			public const string NotFound = "Enrollment.NotFound";
+		}
+
 		public static class Student
 		{
 			public const string Creation = "Student.Creation";
