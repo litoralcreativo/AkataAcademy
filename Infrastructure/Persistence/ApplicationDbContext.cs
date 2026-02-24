@@ -23,9 +23,7 @@ namespace AkataAcademy.Infrastructure.Persistence
         public DbSet<CourseModule> CourseModules { get; set; }
         public DbSet<Certificate> Certificates { get; set; }
         public DbSet<Student> Students { get; set; }
-
-        /* public DbSet<CourseEnrollment> Enrollments { get; set; }
-         */
+        public DbSet<CourseEnrollment> Enrollments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
