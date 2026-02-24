@@ -2,7 +2,7 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.Certification.ValueObjects
 {
-    public record ExpirationDate(DateTime Value) : IValueObject
+    public record ExpirationDate(DateTime Value) : IValueObject<ExpirationDate, DateTime>
     {
         public static ExpirationDate From(DateTime value)
         {

@@ -2,7 +2,7 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.Catalog.ValueObjects
 {
-    public record ModuleDuration(int Minutes) : IValueObject
+    public record ModuleDuration(int Minutes) : IValueObject<ModuleDuration, int>
     {
         public static ModuleDuration From(int minutes)
         {

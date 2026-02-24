@@ -2,7 +2,7 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.Certification.ValueObjects
 {
-    public record StudentId(Guid Value) : IValueObject
+    public record StudentId(Guid Value) : IValueObject<StudentId, Guid>
     {
         public static StudentId From(Guid value)
         {

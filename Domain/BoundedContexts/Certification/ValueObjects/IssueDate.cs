@@ -2,7 +2,7 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.Certification.ValueObjects
 {
-    public record IssueDate(DateTime Value) : IValueObject
+    public record IssueDate(DateTime Value) : IValueObject<IssueDate, DateTime>
     {
         public static IssueDate From(DateTime value)
         {

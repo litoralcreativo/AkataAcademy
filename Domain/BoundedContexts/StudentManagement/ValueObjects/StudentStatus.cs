@@ -3,7 +3,7 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.StudentManagement.ValueObjects
 {
-	public record StudentStatus(string Value) : IValueObject
+	public record StudentStatus(string Value) : IValueObject<StudentStatus, string>
 	{
 		public static readonly StudentStatus Active = new("Active");
 		public static readonly StudentStatus Inactive = new("Inactive");

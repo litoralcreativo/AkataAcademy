@@ -2,7 +2,7 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.Catalog.ValueObjects
 {
-    public record ModuleTitle(string Value) : IValueObject
+    public record ModuleTitle(string Value) : IValueObject<ModuleTitle, string>
     {
         public static ModuleTitle From(string value)
         {

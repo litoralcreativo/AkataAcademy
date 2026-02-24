@@ -2,7 +2,7 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.Catalog.ValueObjects
 {
-    public record CourseTitle(string Value) : IValueObject
+    public record CourseTitle(string Value) : IValueObject<CourseTitle, string>
     {
         public static CourseTitle From(string value)
         {

@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace AkataAcademy.Domain.BoundedContexts.StudentManagement.ValueObjects
 {
-	public record Email(string Value) : IValueObject
+	public record Email(string Value) : IValueObject<Email, string>
 	{
 		public static Email From(string value)
 		{
