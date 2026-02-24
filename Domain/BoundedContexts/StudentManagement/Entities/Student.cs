@@ -37,34 +37,34 @@ namespace AkataAcademy.Domain.BoundedContexts.StudentManagement.Entities
 			AddDomainEvent(new StudentUpdated(Id));
 		}
 
-		public Result Activate()
+		public Result<StudentStatus> Activate()
 		{
 			var result = Status.Activate();
 			if (!result.IsSuccess) return result;
 
 			Status = result.Value;
 			AddDomainEvent(new StudentActivated(Id));
-			return Result.Success();
+			return Result.Success(Status);
 		}
 
-		public Result Suspend()
+		public Result<StudentStatus> Suspend()
 		{
 			var result = Status.Suspend();
 			if (!result.IsSuccess) return result;
 
 			Status = result.Value;
 			AddDomainEvent(new StudentSuspended(Id));
-			return Result.Success();
+			return Result.Success(Status);
 		}
 
-		public Result Delete()
+		public Result<StudentStatus> Delete()
 		{
 			var result = Status.Delete();
 			if (!result.IsSuccess) return result;
 
 			Status = result.Value;
 			AddDomainEvent(new StudentDeleted(Id));
-			return Result.Success();
+			return Result.Success(Status);
 		}
 
 		public static Result<Student> Register(FullName name, Email email, DateOfBirth dateOfBirth)

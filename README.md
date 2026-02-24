@@ -2,9 +2,70 @@
 
 AkataAcademy is an educational platform developed in .NET 8 following the principles of DDD (Domain-Driven Design), Clean Architecture, and CQRS. The goal is to provide a robust, scalable, and maintainable foundation for modern educational applications.
 
+---
+
+## Project Status 📊
+
+![Overall Progress](https://img.shields.io/badge/Overall%20Progress-70%25-blue?style=flat-square&labelColor=282c34)
+![Tests](https://img.shields.io/badge/Tests-299%2F299-brightgreen?style=flat-square&labelColor=282c34)
+![Build](https://img.shields.io/badge/Build-Passing-brightgreen?style=flat-square&labelColor=282c34)
+![Phase](https://img.shields.io/badge/Phase-1%20%2F%204-orange?style=flat-square&labelColor=282c34)
+
+### Bounded Contexts Progress
+
+| BC                    | Progress                                                                                   | Status      | Details                                                            |
+| --------------------- | ------------------------------------------------------------------------------------------ | ----------- | ------------------------------------------------------------------ |
+| **Catalog**           | ![85%](https://img.shields.io/badge/85%25-brightgreen?style=flat-square&labelColor=282c34) | 🟢 Complete | Domain ✅ • Config ✅ • Migration ✅ • Handlers 🟡 • API ❌        |
+| **StudentManagement** | ![80%](https://img.shields.io/badge/80%25-brightgreen?style=flat-square&labelColor=282c34) | 🟢 Complete | Domain ✅ • Config ✅ • Migration ✅ • Handlers 🟡 • API ❌        |
+| **Enrollment**        | ![75%](https://img.shields.io/badge/75%25-yellow?style=flat-square&labelColor=282c34)      | 🟡 Partial  | Domain ✅ • Config ✅ • Migration ✅ • Repository ✅ • Handlers 🟡 |
+| **Certification**     | ![70%](https://img.shields.io/badge/70%25-yellow?style=flat-square&labelColor=282c34)      | 🟡 Partial  | Domain ✅ • Config ✅ • Migration 🟡 • Handlers 🟡 • Issuance ❌   |
+
+### Phase Roadmap
+
+| Phase                                | Status                                                                                                | Progress | Deliverables                                                  |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------------- | -------- | ------------------------------------------------------------- |
+| **Phase 1: Domain & Infrastructure** | ![Complete](https://img.shields.io/badge/Complete-brightgreen?style=flat-square&labelColor=282c34)    | 100%     | All domain models, EF Core config, migrations, 8 repositories |
+| **Phase 2: Application & API**       | ![In Progress](https://img.shields.io/badge/In%20Progress-orange?style=flat-square&labelColor=282c34) | 50%      | Command/Query handlers, API endpoints, integration events     |
+| **Phase 3: Integration & Features**  | ![Not Started](https://img.shields.io/badge/Not%20Started-red?style=flat-square&labelColor=282c34)    | 0%       | Cross-BC workflows, notifications, external integrations      |
+| **Phase 4: Polish & Optimization**   | ![Not Started](https://img.shields.io/badge/Not%20Started-red?style=flat-square&labelColor=282c34)    | 0%       | Caching, performance, audit logging, Swagger documentation    |
+
+### Feature Breakdown
+
+**✅ Completed (11 items)**
+
+- ![Badge](https://img.shields.io/badge/Domain%20Layer-Complete-brightgreen?style=flat-square&labelColor=282c34) All 4 BCs with entities, VOs, domain events
+- ![Badge](https://img.shields.io/badge/EF%20Core%20Config-Complete-brightgreen?style=flat-square&labelColor=282c34) Fluent API, owned entities, converters, indexes
+- ![Badge](https://img.shields.io/badge/Database-8%20Migrations-brightgreen?style=flat-square&labelColor=282c34) All migrations applied to PostgreSQL
+- ![Badge](https://img.shields.io/badge/Tests-299%2F299%20Passing-brightgreen?style=flat-square&labelColor=282c34) Full coverage across all BCs
+- ![Badge](https://img.shields.io/badge/Repositories-8%20Implemented-brightgreen?style=flat-square&labelColor=282c34) Read + Write models per BC
+- ![Badge](https://img.shields.io/badge/Dependency%20Injection-Configured-brightgreen?style=flat-square&labelColor=282c34) All services registered
+- ![Badge](https://img.shields.io/badge/Documentation-Complete-brightgreen?style=flat-square&labelColor=282c34) Domain/readme.md + comprehensive patterns
+
+**🟡 In Progress (4 items)**
+
+- ![Badge](https://img.shields.io/badge/Handlers-50%25-orange?style=flat-square&labelColor=282c34) Catalog done • Enrollment & Certification pending
+- ![Badge](https://img.shields.io/badge/API%20Endpoints-Partial-orange?style=flat-square&labelColor=282c34) Catalog working • Enrollment & Certification in progress
+- ![Badge](https://img.shields.io/badge/Integration%20Events-Defined-orange?style=flat-square&labelColor=282c34) Domain events emitted • Cross-BC handlers pending
+- ![Badge](https://img.shields.io/badge/Advanced%20Queries-Basic-orange?style=flat-square&labelColor=282c34) Read repos implemented • Specialized queries pending
+
+**❌ Not Started (6 items)**
+
+- ![Badge](https://img.shields.io/badge/Certificate%20Issuance-Not%20Started-red?style=flat-square&labelColor=282c34) Workflow & API integration
+- ![Badge](https://img.shields.io/badge/Advanced%20Analytics-Not%20Started-red?style=flat-square&labelColor=282c34) Reports, insights, completion rates
+- ![Badge](https://img.shields.io/badge/Notifications-Not%20Started-red?style=flat-square&labelColor=282c34) Email, eligibility, milestones
+- ![Badge](https://img.shields.io/badge/External%20Integrations-Not%20Started-red?style=flat-square&labelColor=282c34) Third-party validation, LMS adapters
+- ![Badge](https://img.shields.io/badge/Performance-Not%20Started-red?style=flat-square&labelColor=282c34) Caching, optimization, batch operations
+- ![Badge](https://img.shields.io/badge/Audit%20%26%20Compliance-Not%20Started-red?style=flat-square&labelColor=282c34) Change tracking, retention policies
+
+---
+
 ## Table of Contents
 
 - [AkataAcademy](#akataacademy)
+  - [Project Status 📊](#project-status-)
+    - [Bounded Contexts Progress](#bounded-contexts-progress)
+    - [Phase Roadmap](#phase-roadmap)
+    - [Feature Breakdown](#feature-breakdown)
   - [Table of Contents](#table-of-contents)
   - [Features](#features)
   - [Architecture](#architecture)
@@ -13,9 +74,13 @@ AkataAcademy is an educational platform developed in .NET 8 following the princi
   - [Technologies Used](#technologies-used)
   - [Installation and Running](#installation-and-running)
   - [Testing](#testing)
+    - [Test Coverage by Domain](#test-coverage-by-domain)
+    - [Running Tests](#running-tests)
     - [Switch to InMemory database for testing](#switch-to-inmemory-database-for-testing)
   - [API Usage](#api-usage)
     - [Catalog Endpoints](#catalog-endpoints)
+    - [Enrollment Endpoints](#enrollment-endpoints)
+    - [Certification \& Eligibility Endpoints](#certification--eligibility-endpoints)
   - [CQRS Workflow and Domain/Integration Events Sequence Diagrams](#cqrs-workflow-and-domainintegration-events-sequence-diagrams)
     - [1a. Command handling: Persistence](#1a-command-handling-persistence)
     - [1b. Command handling: Domain/Integration Events](#1b-command-handling-domainintegration-events)
@@ -23,6 +88,9 @@ AkataAcademy is an educational platform developed in .NET 8 following the princi
       - [Additional Notes](#additional-notes)
   - [Layers and Communication Diagram](#layers-and-communication-diagram)
   - [Conventions and Best Practices](#conventions-and-best-practices)
+    - [Domain-Driven Design Patterns](#domain-driven-design-patterns)
+    - [Enrollment \& Progression Patterns](#enrollment--progression-patterns)
+    - [Certification Eligibility Patterns](#certification-eligibility-patterns)
   - [Contributions](#contributions)
   - [License](#license)
 
@@ -30,13 +98,15 @@ AkataAcademy is an educational platform developed in .NET 8 following the princi
 
 ## Features
 
-- Clean and decoupled architecture ([DDD](https://martinfowler.com/bliki/DomainDrivenDesign.html) + [CQRS](https://martinfowler.com/bliki/CQRS.html) + [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html))
-- Clear separation of layers: Domain, Application, Infrastructure, and Presentation
-- Use of [Value Objects](https://martinfowler.com/bliki/ValueObject.html) and [Entities](https://martinfowler.com/bliki/EvansClassification.html)
+- **Flexible course progression strategies** (Standard 10%, Fast Track 5%, Slow Track 20%, Custom 1-100%)
+- **Eligibility tracking and state management** with 6-month validity windows
+- **Repository pattern** with 8 repositories (Course, Student, CourseEnrollment, Certificate + read models)
+- **Domain-driven certification workflow** with event-driven architecture
 - Dependency injection without [MediatR](https://github.com/jbogard/MediatR)
 - Minimal API endpoints and traditional controllers
 - HTTP tests included for main endpoints
 - Flexible [EF Core](https://learn.microsoft.com/en-us/ef/core/) configuration (InMemory, SQL Server, PostgreSQL)
+- **Comprehensive test coverage** (299 unit tests covering all bounded contexts)
 
 ## Architecture
 
@@ -64,7 +134,8 @@ AkataAcademy.sln
 │       └── 📁 Integration/
 ├── 📦 Domain/
 │   ├── 📄 AkataAcademy.Domain.csproj
-│   ├── 📁 BoundedContexts/
+│   ├── � readme.md (📖 [Domain Layer Overview](Domain/readme.md))
+│   ├── �📁 BoundedContexts/
 │   │   ├── 📁 Catalog/
 │   │   ├── 📁 Certification/
 │   │   ├── 📁 Enrollment/
@@ -76,11 +147,20 @@ AkataAcademy.sln
 │   └── 📁 Persistence/
 │       ├── 📁 Configurations/
 │       └── 📁 Repositories/
-└── 📦 Presentation/
-    ├── 📄 AkataAcademy.Presentation.csproj
-    ├── 📁 Controllers/
-    ├── 📝 appsettings.json
-    └── 📝 WebAPI.http
+├── 📦 Presentation/
+│   ├── 📄 AkataAcademy.Presentation.csproj
+│   ├── 📁 Controllers/
+│   ├── 📝 appsettings.json
+│   └── 📝 WebAPI.http
+└── 📦 Tests/
+    ├── 📄 AkataAcademy.UnitTests.csproj
+    └── 📁 UnitTests/
+        ├── 📁 Domain/
+        │   ├── 📁 Catalog/
+        │   ├── 📁 Certification/
+        │   ├── 📁 Enrollment/
+        │   └── 📁 StudentManagement/
+        └── 📁 Common/
 ```
 
 ## Projects References
@@ -183,23 +263,43 @@ flowchart LR
 
 ## Testing
 
-- The `WebAPI.http` file contains examples of GET and POST requests to test the API.
-- You can add unit tests in the future using xUnit, NUnit, or MSTest.
+The project includes comprehensive unit test coverage with **299 tests** across all bounded contexts using xUnit.
 
-  ### Switch to InMemory database for testing
-  - In `Infrastructure/DependencyInjection.cs`, comment out the Npgsql configuration line and uncomment the InMemory line:
+### Test Coverage by Domain
 
-    ```csharp
-    // Comment this block
-    services.AddDbContext<ApplicationDbContext>(
-                options => options
-                    .UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+- **Catalog BC Tests** - Course creation, module management, domain events (60+ tests)
+- **StudentManagement BC Tests** - Student registration, status transitions, validation (70+ tests)
+- **Enrollment BC Tests** (41 tests) - ProgressIncrement strategies, state transitions, progress tracking
+- **Certification BC Tests** (35 tests) - Eligibility states, state transitions, expiration logic, audit trails
 
-    // Uncomment this block
-    // services.AddDbContext<ApplicationDbContext>(
-    //     options => options
-    //         .UseInMemoryDatabase("AkataAcademyDb"));
-    ```
+### Running Tests
+
+```bash
+# Run all tests
+dotnet test
+
+# Run tests with verbose output
+dotnet test --verbosity detailed
+
+# Run tests for a specific project
+dotnet test Tests/UnitTests/AkataAcademy.UnitTests.csproj
+```
+
+### Switch to InMemory database for testing
+
+- In `Infrastructure/DependencyInjection.cs`, comment out the Npgsql configuration line and uncomment the InMemory line:
+
+  ```csharp
+  // Comment this block
+  services.AddDbContext<ApplicationDbContext>(
+              options => options
+                  .UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+
+  // Uncomment this block
+  // services.AddDbContext<ApplicationDbContext>(
+  //     options => options
+  //         .UseInMemoryDatabase("AkataAcademyDb"));
+  ```
 
   - This allows you to run the application without PostgreSQL, ideal for quick tests or local development.
   - Remember to switch back to the Npgsql configuration for production or PostgreSQL integration.
@@ -216,6 +316,28 @@ flowchart LR
     "description": "POC of Domain-Driven Design, CQRS, and Clean Architecture"
   }
   ```
+
+### Enrollment Endpoints
+
+- **POST /api/enrollments**: Enroll a student in a course with a progression strategy. Example payload:
+  ```json
+  {
+    "studentId": "uuid",
+    "courseId": "uuid",
+    "progressIncrement": 10
+  }
+  ```
+- **PUT /api/enrollments/{enrollmentId}/progress**: Update enrollment progress
+- **GET /api/enrollments/{studentId}**: Get all enrollments for a student
+- **GET /api/enrollments/student/{studentId}/course/{courseId}**: Get specific enrollment
+
+### Certification & Eligibility Endpoints
+
+- **GET /api/eligibility/{studentId}/{courseId}**: Check eligibility status (PENDING, ELIGIBLE, INELIGIBLE, REVOKED)
+- **POST /api/eligibility/{eligibilityRecordId}/mark-eligible**: Mark student as eligible for certification
+- **POST /api/eligibility/{eligibilityRecordId}/revoke**: Revoke eligibility with reason
+- **GET /api/certificates/{studentId}**: Get all certificates for a student
+- **POST /api/certificates**: Issue a new certificate (requires ELIGIBLE status)
 
 ## CQRS Workflow and Domain/Integration Events Sequence Diagrams
 
@@ -415,6 +537,30 @@ graph TD
 - Command and query handlers are registered automatically by reflection.
 - MediatR is not used; handlers are resolved via DI.
 - It is recommended to maintain layer separation and avoid circular dependencies.
+
+### Domain-Driven Design Patterns
+
+- **Bounded Contexts:** Four independent contexts (Catalog, StudentManagement, Enrollment, Certification) with strict boundary enforcement
+- **Aggregate Roots:** CourseEnrollment, EligibilityRecord, Certificate, Course, Student with defined invariants
+- **Value Objects:** Immutable records with value-based equality and factory methods for validation
+- **Domain Events:** State changes communicated across aggregates (StudentEnrolled → StudentBecameEligible)
+- **State Machines:** Eligibility Record with states (PENDING → ELIGIBLE/INELIGIBLE → REVOKED)
+- **Repository Pattern:** Write and read repositories per bounded context for persistence and querying
+
+### Enrollment & Progression Patterns
+
+- **Configurable Progress Strategies:** Support for Standard (10%), Fast Track (5%), Slow Track (20%), and Custom (1-100%) progression
+- **State Transitions:** CourseEnrollment follows strict lifecycle: ENROLLED → ACTIVE → COMPLETED (or SUSPENDED/DROPPED)
+- **Audit Trails:** Timestamps for all state changes (EnrolledOn, ActivatedOn, CompletedOn, SuspendedOn, DroppedOn)
+
+### Certification Eligibility Patterns
+
+- **Eligibility Record Lifecycle:** Independent aggregate tracking student eligibility separately from certificate issuance
+- **State-Based Validation:** Four states with strict transition rules and event emission
+- **Reason Tracking:** Ineligibility and revocation require documented reasons for compliance
+- **Time Window Management:** 6-month validity window with automated expiration detection
+
+For detailed information about Bounded Contexts, Aggregate Roots, Value Objects, and Domain Events, see [📖 Domain Layer Overview](Domain/readme.md).
 
 ## Contributions
 

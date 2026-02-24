@@ -2,15 +2,8 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.Certification.ValueObjects
 {
-    public record CourseId : IValueObject
+    public record CourseId(Guid Value) : IValueObject<CourseId, Guid>
     {
-        public Guid Value { get; }
-
-        private CourseId(Guid value)
-        {
-            Value = value;
-        }
-
         public static CourseId From(Guid value)
         {
             if (value == Guid.Empty)

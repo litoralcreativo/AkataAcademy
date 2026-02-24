@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using AkataAcademy.Domain.BoundedContexts.Catalog.Repositories;
 using AkataAcademy.Domain.BoundedContexts.Certification.Repositories;
 using AkataAcademy.Domain.BoundedContexts.StudentManagement.Repositories;
+using AkataAcademy.Domain.BoundedContexts.Enrollment.Repositories;
 using AkataAcademy.Application.Certification.Queries;
 
 namespace AkataAcademy.Infrastructure
@@ -49,6 +50,7 @@ namespace AkataAcademy.Infrastructure
             services.AddScoped<ICertificateReadRepository, CertificateReadRepository>();
             services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<IStudentReadRepository, StudentReadRepository>();
+            services.AddScoped<IEnrollmentRepository, CourseEnrollmentRepository>();
 
             #endregion
 
