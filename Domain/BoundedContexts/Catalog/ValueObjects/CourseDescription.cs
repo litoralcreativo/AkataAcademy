@@ -2,15 +2,8 @@
 
 namespace AkataAcademy.Domain.BoundedContexts.Catalog.ValueObjects
 {
-    public record CourseDescription : IValueObject
+    public record CourseDescription(string Value) : IValueObject
     {
-        public string Value { get; }
-
-        private CourseDescription(string value)
-        {
-            Value = value;
-        }
-
         public static CourseDescription From(string value)
         {
             if (string.IsNullOrWhiteSpace(value))

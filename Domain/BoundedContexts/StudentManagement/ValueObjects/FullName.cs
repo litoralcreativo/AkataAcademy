@@ -2,7 +2,7 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Domain.BoundedContexts.StudentManagement.ValueObjects
 {
-	public record class FullName(string FirstName, string LastName)
+	public record class FullName(string FirstName, string LastName) : IValueObject
 	{
 		public static FullName From(string firstName, string lastName)
 		{
