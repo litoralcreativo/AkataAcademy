@@ -5,7 +5,7 @@ using AkataAcademy.Domain.Common;
 
 namespace AkataAcademy.Application.StudentManagement.Commands
 {
-	public class UpdateStudentCommandHandler : ICommandHandler<UpdateStudentCommand>
+	public class UpdateStudentCommandHandler : ICommandHandler<UpdateStudentCommand, StudentStatus>
 	{
 		private readonly IStudentRepository _studentRepository;
 		private readonly IUnitOfWork _unitOfWork;
@@ -18,11 +18,11 @@ namespace AkataAcademy.Application.StudentManagement.Commands
 			_unitOfWork = unitOfWork;
 		}
 
-		public async Task<Result> Handle(UpdateStudentCommand command)
+		public async Task<Result<StudentStatus>> Handle(UpdateStudentCommand command)
 		{
 			var student = await _studentRepository.GetByIdAsync(command.StudentId);
 			if (student is null)
-				return Result.Failure(Error.NotFound(ErrorCodes.Student.NotFound, "Student not found."));
+				return Result.Failure<StudentStatus>(Error.NotFound(ErrorCodes.Student.NotFound, "Student not found."));
 
 			var fullName = new FullName(command.FirstName, command.LastName);
 			var email = Email.From(command.Email);
@@ -32,7 +32,7 @@ namespace AkataAcademy.Application.StudentManagement.Commands
 
 			await _unitOfWork.SaveChangesAsync();
 
-			return Result.Success();
+			return Result.Success(student.Status);
 		}
 	}
 }

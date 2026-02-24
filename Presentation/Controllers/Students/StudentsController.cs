@@ -52,7 +52,7 @@ namespace AkataAcademy.Presentation.Controllers.Students
 			var query = new GetStudentByIdQuery(id);
 			var result = await _queryDispatcher.Dispatch(query);
 			if (result.IsFailure)
-				return NotFound(result.Error);
+				return NotFound(result);
 			return Ok(result.Value);
 		}
 
@@ -82,8 +82,9 @@ namespace AkataAcademy.Presentation.Controllers.Students
 				request.Email,
 				request.DateOfBirth);
 
-			await _commandDispatcher.Dispatch(command);
-
+			var result = await _commandDispatcher.Dispatch(command);
+			if (result.IsFailure)
+				return BadRequest(result.Error);
 			return NoContent();
 		}
 
@@ -91,8 +92,9 @@ namespace AkataAcademy.Presentation.Controllers.Students
 		public async Task<IActionResult> Activate(Guid id)
 		{
 			var command = new ActivateStudentCommand(id);
-			await _commandDispatcher.Dispatch(command);
-
+			var result = await _commandDispatcher.Dispatch(command);
+			if (result.IsFailure)
+				return BadRequest(result.Error);
 			return NoContent();
 		}
 
@@ -100,8 +102,9 @@ namespace AkataAcademy.Presentation.Controllers.Students
 		public async Task<IActionResult> Suspend(Guid id)
 		{
 			var command = new SuspendStudentCommand(id);
-			await _commandDispatcher.Dispatch(command);
-
+			var result = await _commandDispatcher.Dispatch(command);
+			if (result.IsFailure)
+				return BadRequest(result.Error);
 			return NoContent();
 		}
 
@@ -109,8 +112,9 @@ namespace AkataAcademy.Presentation.Controllers.Students
 		public async Task<IActionResult> Delete(Guid id)
 		{
 			var command = new DeleteStudentCommand(id);
-			await _commandDispatcher.Dispatch(command);
-
+			var result = await _commandDispatcher.Dispatch(command);
+			if (result.IsFailure)
+				return BadRequest(result.Error);
 			return NoContent();
 		}
 	}

@@ -1,4 +1,5 @@
 using AkataAcademy.Application.Common;
+using AkataAcademy.Domain.BoundedContexts.StudentManagement.ValueObjects;
 
 namespace AkataAcademy.Application.StudentManagement.Commands
 {
@@ -7,5 +8,5 @@ namespace AkataAcademy.Application.StudentManagement.Commands
 		string FirstName,
 		string LastName,
 		string Email,
-		DateTime DateOfBirth) : ICommand;
+		DateTime DateOfBirth) : ICommand<StudentStatus>;
 }
